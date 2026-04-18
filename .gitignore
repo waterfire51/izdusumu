@@ -30,8 +30,10 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files (can opt-in for committing if needed)
-.env*
+# env files (secrets; commit .env.example instead)
+.env
+.env.*
+!.env.example
 
 # vercel
 .vercel
@@ -39,3 +41,30 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# prisma — https://www.prisma.io/docs/guides/migrate/developing-with-prisma-migrate
+# Migration klasörünü genelde repoya ekleyin; yerel SQLite / dump dosyalarını hariç tutun
+/prisma/*.db
+/prisma/*.db-journal
+/prisma/*.sqlite
+/prisma/*.sqlite3
+*.db
+*.db-journal
+
+# prisma generate çıktısı (özel output path kullanırsanız)
+node_modules/.prisma/
+
+# veritabanı yedekleri / export
+*.sql.gz
+dump.rdb
+
+# IDE / editor
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# turbo / monorepo (ileride gerekirse)
+.turbo
