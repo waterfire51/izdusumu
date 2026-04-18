@@ -24,7 +24,7 @@ export default function WhatsAppButton() {
       style={{ backgroundColor: WA_GREEN }}
     >
       <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 border-black bg-white shadow-[2px_2px_0_#0f172a]">
-        <WhatsAppIcon className="h-5 w-5" style={{ color: WA_GREEN }} />
+        <WhatsAppIcon className="h-5 w-5 text-[#25D366]" />
       </span>
       WhatsApp
     </Link>

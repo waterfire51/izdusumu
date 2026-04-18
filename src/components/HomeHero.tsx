@@ -245,14 +245,14 @@ export default function HomeHero() {
 
       <Container className="relative z-10 grid min-h-[min(88vh,820px)] items-end gap-8 pb-4 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-6 lg:pt-6">
         <FadeIn className="space-y-6 pb-8 lg:pb-24">
-          <h1 className="font-display text-[2.1rem] leading-[1.15] text-white sm:text-5xl lg:text-[3.25rem] lg:leading-tight">
+          <h1 className="font-hero text-[2.1rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
             Öğrenmenin büyüsünü{" "}
-            <span style={{ color: YELLOW }} className="font-semibold">
+            <span style={{ color: YELLOW }} className="font-bold">
               İzdüşümü Anaokulu
             </span>
             &apos;nda keşfedin
           </h1>
-          <p className="max-w-xl font-sans text-base leading-relaxed text-white/95 sm:text-lg">
+          <p className="max-w-xl font-hero text-base font-medium leading-relaxed text-white/95 sm:text-lg">
             Her gün yeni keşifler ve gelişim fırsatları sunan sıcak bir topluluğa
             hoş geldiniz. Güvenli, neşeli ve öğrenmeye açık bir ortamda
             çocuklarınızın yanındayız.
@@ -261,7 +261,7 @@ export default function HomeHero() {
           <div className="flex flex-wrap items-center gap-4">
             <Link
               href="/dersliklerimiz"
-              className="inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 active:scale-[0.99]"
+              className="font-hero inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 active:scale-[0.99]"
               style={{ backgroundColor: YELLOW }}
             >
               Şimdi keşfet
@@ -269,7 +269,7 @@ export default function HomeHero() {
             </Link>
             <button
               type="button"
-              className="group inline-flex items-center gap-3 rounded-full text-sm font-semibold text-white transition hover:opacity-95"
+              className="font-hero group inline-flex items-center gap-3 rounded-full text-sm font-semibold text-white transition hover:opacity-95"
               onClick={openVideo}
               aria-haspopup="dialog"
               aria-expanded={videoOpen}

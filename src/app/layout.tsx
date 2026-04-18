@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Nunito } from "next/font/google";
+import { Inter, Nunito, Quicksand } from "next/font/google";
 import "./globals.css";
 import Header2 from "@/components/Header2";
 import Footer2 from "@/components/Footer2";
@@ -12,7 +12,14 @@ const inter = Inter({
 
 const nunito = Nunito({
   variable: "--font-secondary",
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -41,7 +48,7 @@ export default function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${inter.variable} ${nunito.variable} h-full antialiased`}
+      className={`${inter.variable} ${nunito.variable} ${quicksand.variable} h-full antialiased`}
     >
       <body className="min-h-full bg-white text-slate-900">
         <Header2 />

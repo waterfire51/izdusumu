@@ -10,6 +10,9 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-primary);
   --font-display: var(--font-secondary);
+  /* Hero: Quicksand (latin-ext, Türkçe uyumlu) + Nunito yedek glif */
+  --font-hero: var(--font-quicksand), var(--font-secondary), ui-rounded, system-ui,
+    sans-serif;
 }
 
 body {
