@@ -17,7 +17,7 @@ const inputClass =
 
 export const metadata = {
   title: "İletişim | Özel İzdüşümü Anaokulu",
-  description: "İletişim formu ve ön kayıt başvurusu.",
+  description: "İletişim formu ve görüşme talebi.",
 };
 
 export default function ContactPage() {
@@ -48,7 +48,7 @@ export default function ContactPage() {
               Sorularınız için yanınızdayız
             </h1>
             <p className="font-sans mt-4 text-base leading-relaxed text-white/95 sm:text-lg">
-              Okulumuzu ziyaret etmek veya ön kayıt başvurusu oluşturmak için
+              Okulumuzu ziyaret etmek veya görüşme talebi oluşturmak için
               formu doldurun ya da doğrudan arayın.
             </p>
             <a
@@ -91,7 +91,7 @@ export default function ContactPage() {
               Başvuru
             </div>
             <h2 className="font-display mt-4 text-3xl font-bold text-slate-900 sm:text-4xl">
-              Mesaj veya ön kayıt
+              Mesaj veya görüşme talebi
             </h2>
             <p className="font-sans mt-3 text-base text-slate-600 sm:text-lg">
               İki ayrı formdan birini kullanabilirsiniz; en kısa sürede size
@@ -156,40 +156,67 @@ export default function ContactPage() {
             <FadeIn delay={0.1}>
               <div className="h-full rounded-2xl border-2 border-black bg-white p-6 shadow-[6px_6px_0_#0f172a] sm:p-8">
                 <h3 className="font-sans text-xl font-bold text-slate-900">
-                  Ön kayıt formu
+                  Görüşme talebi formu
                 </h3>
                 <p className="font-display mt-1 text-sm text-slate-600">
-                  Çocuğunuz için ön bilgi talebi.
+                  Randevu ve görüşme planlaması için bilgilerinizi bırakın.
                 </p>
                 <form className="mt-6 space-y-4 text-sm">
                   <div>
                     <label className="font-semibold text-slate-900">
-                      Çocuk adı
+                      Veli adı soyadı
                     </label>
                     <input
                       type="text"
-                      name="childName"
-                      placeholder="Çocuk adı soyadı"
-                      className={inputClass}
-                    />
-                  </div>
-                  <div>
-                    <label className="font-semibold text-slate-900">Yaş</label>
-                    <input
-                      type="text"
-                      name="age"
-                      placeholder="Örn: 4 yaş"
+                      name="parentFullName"
+                      placeholder="Veli adı soyadı"
                       className={inputClass}
                     />
                   </div>
                   <div>
                     <label className="font-semibold text-slate-900">
-                      Veli e-posta
+                      İletişim numarası
                     </label>
                     <input
-                      type="email"
-                      name="parentEmail"
-                      placeholder="email@ornek.com"
+                      type="tel"
+                      name="parentPhone"
+                      placeholder="+90 5xx xxx xx xx"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="font-semibold text-slate-900">
+                      Veli mesleği
+                    </label>
+                    <input
+                      type="text"
+                      name="parentJob"
+                      placeholder="Meslek bilgisi"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div>
+                    <label className="font-semibold text-slate-900">
+                      Çocuk yaş grubu
+                    </label>
+                    <select name="childAgeGroup" className={inputClass} defaultValue="">
+                      <option value="" disabled>
+                        Yaş grubu seçiniz
+                      </option>
+                      <option value="2-yas">2 yaş</option>
+                      <option value="3-4-yas">3-4 yaş</option>
+                      <option value="4-5-yas">4-5 yaş</option>
+                      <option value="5-6-yas">5-6 yaş</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="font-semibold text-slate-900">
+                      Çocuğun adı soyadı
+                    </label>
+                    <input
+                      type="text"
+                      name="childFullName"
+                      placeholder="Çocuğun adı soyadı"
                       className={inputClass}
                     />
                   </div>
@@ -198,7 +225,7 @@ export default function ContactPage() {
                     className="w-full rounded-full border-4 border-black px-6 py-3.5 font-sans text-sm font-bold text-white shadow-[4px_4px_0_#0f172a] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none sm:w-auto"
                     style={{ backgroundColor: GREEN }}
                   >
-                    Ön kayıt oluştur
+                    Görüşme talebi gönder
                   </button>
                 </form>
               </div>
