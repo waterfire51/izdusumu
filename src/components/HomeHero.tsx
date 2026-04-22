@@ -211,9 +211,37 @@ export default function HomeHero() {
         backgroundSize: "48px 48px",
       }}
     >
-      {/* Alt bulut şeridi — banner-bg-1.png (3840×468, tam genişlik) */}
+      {/* Çocuk görseli — bulut katmanının altında (z-[1] < bulut z-[2]) */}
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] flex justify-center lg:justify-end">
+        <div className="relative w-full max-w-6xl px-6 lg:px-10">
+          <div className="flex justify-center lg:justify-end">
+            <FadeIn
+              className="relative w-full max-w-[min(100%,420px)] translate-y-2 lg:max-w-[min(100%,520px)] lg:translate-y-6 xl:max-w-[min(100%,560px)]"
+              delay={0.08}
+            >
+              <motion.div
+                className="relative w-full"
+                style={{ x: kidsX, y: kidsY }}
+              >
+                <div className="relative mx-auto aspect-[4/5] w-full max-w-md sm:aspect-[5/6] lg:mx-0 lg:max-w-none">
+                  <Image
+                    src="/01.png"
+                    alt="Okul öncesi öğrencilerimiz"
+                    fill
+                    priority
+                    sizes="(max-width: 1024px) 90vw, 45vw"
+                    className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
+                  />
+                </div>
+              </motion.div>
+            </FadeIn>
+          </div>
+        </div>
+      </div>
+
+      {/* Alt bulut şeridi — görselin üstünde */}
       <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] w-full select-none"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] w-full select-none"
         style={{ x: bannerX }}
         aria-hidden
       >
@@ -244,13 +272,15 @@ export default function HomeHero() {
       ))}
 
       <Container className="relative z-10 grid min-h-[min(88vh,820px)] items-end gap-8 pb-4 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-6 lg:pt-6">
-        <FadeIn className="space-y-6 pb-8 lg:pb-24">
+        <FadeIn className="max-lg:pb-[min(48vh,380px)] space-y-6 pb-8 lg:pb-24">
           <h1 className="font-hero text-[2.1rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
-            Öğrenmenin büyüsünü{" "}
+            {" "}
             <span style={{ color: YELLOW }} className="font-bold">
-              İzdüşümü Anaokulu
+              İz Düşümü Anaokulu
             </span>
-            &apos;nda keşfedin
+            &apos;nda Güzel Dokunuşlar  <span style={{ color: YELLOW }} className="font-bold">
+              İz Bırakır
+            </span>
           </h1>
           <p className="max-w-xl font-hero text-base font-medium leading-relaxed text-white/95 sm:text-lg">
             Her gün yeni keşifler ve gelişim fırsatları sunan sıcak bir topluluğa
@@ -264,7 +294,7 @@ export default function HomeHero() {
               className="font-hero inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 active:scale-[0.99]"
               style={{ backgroundColor: YELLOW }}
             >
-              Şimdi keşfet
+              2-6 Yaş Arası Çocuklarımız İçin
               <CaretRight size={18} weight="bold" />
             </Link>
             <button
@@ -281,31 +311,16 @@ export default function HomeHero() {
               >
                 <Play size={22} weight="fill" className="ml-0.5" />
               </span>
-              Tanıtım videosu
+              Tanıtım Filmi
             </button>
           </div>
         </FadeIn>
 
-        <FadeIn
-          className="relative flex justify-center lg:justify-end"
-          delay={0.08}
-        >
-          <motion.div
-            className="relative w-full max-w-[min(100%,420px)] lg:max-w-none lg:w-full"
-            style={{ x: kidsX, y: kidsY }}
-          >
-            <div className="relative aspect-[4/5] w-full max-w-md translate-y-2 sm:aspect-[5/6] lg:mx-0 lg:max-w-none lg:translate-y-6">
-              <Image
-                src="/01.png"
-                alt="Okul öncesi öğrencilerimiz"
-                fill
-                priority
-                sizes="(max-width: 1024px) 90vw, 45vw"
-                className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
-              />
-            </div>
-          </motion.div>
-        </FadeIn>
+        {/* Masaüstünde görsel alanı — akışta boşluk (görsel absolute ile hizalanır) */}
+        <div
+          className="hidden min-h-[min(72vh,620px)] lg:block"
+          aria-hidden
+        />
       </Container>
 
       {videoOpen ? (

@@ -1,8 +1,9 @@
 export const navLinks = [
   { label: "Ana Sayfa", href: "/" },
-  { label: "Kurumsal", href: "/kurumsal" },
-  { label: "Dersliklerimiz", href: "/dersliklerimiz" },
+  { label: "Hakkımızda", href: "/kurumsal" },
+  { label: "Sınıflarımız", href: "/dersliklerimiz" },
   { label: "Galeri", href: "/galeri" },
+  { label: "Duyurular", href: "/duyurular" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
@@ -176,52 +177,134 @@ export const classroomShowcase = [
 
 export const rooms = [
   {
-    slug: "gumus-kelebekler",
-    name: "Gümüş Kelebekler",
-    ageRange: "36-48 ay",
+    slug: "sinema-salonumuz",
+    name: "Sinema Salonumuz",
     description:
-      "Öz güven geliştiren, sosyal uyumu destekleyen ve oyunla öğrenmeyi merkeze alan sınıf.",
-    highlights: [
-      "Duyusal oyun istasyonları",
-      "Günlük ritim ve rutinler",
-      "Dil gelişimi etkinlikleri",
-    ],
-    approach:
-      "Merak duygusunu destekleyen, bireysel farklılıklara saygılı bir öğrenme ortamı.",
+      "Çocuklarımızın eğitsel film gösterimleri, belgesel izleme saatleri ve toplu etkinlik deneyimleri için hazırlanan keyifli alan.",
     image:
       "https://images.unsplash.com/photo-1503455637927-730bce8583c0?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1503455637927-730bce8583c0?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1588072432836-e10032774350?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1587654780291-39c9404d746b?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
-    slug: "mavi-yildizlar",
-    name: "Mavi Yıldızlar",
-    ageRange: "48-60 ay",
+    slug: "cocuk-kutuphanesi",
+    name: "Çocuk Kütüphanesi",
     description:
-      "Takım çalışması, problem çözme ve yaratıcı düşünme becerileri ön planda.",
-    highlights: [
-      "Atölye temelli öğrenme",
-      "Hikaye anlatımı ve drama",
-      "Matematik oyunları",
-    ],
-    approach:
-      "Çocukların aktif katılımını esas alan proje tabanlı öğrenme yaklaşımı.",
+      "Erken okuryazarlığı destekleyen, hikaye saatleri ve sessiz okuma etkinlikleriyle zenginleştirilmiş sıcak bir okuma köşesi.",
     image:
       "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1509062522246-3755977927d7?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1472396961693-142e6e269027?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
   {
-    slug: "gunes-cicekleri",
-    name: "Güneş Çiçekleri",
-    ageRange: "60-72 ay",
+    slug: "drama-atolyesi",
+    name: "Drama Atölyesi",
     description:
-      "Okula geçiş sürecini destekleyen akademik ve sosyal beceri çalışmaları.",
-    highlights: [
-      "Okul olgunluğu etkinlikleri",
-      "Fen ve doğa projeleri",
-      "STEM farkındalık çalışmaları",
-    ],
-    approach:
-      "Bireysel gelişimi izleyen, hazır bulunuşluğu artıran zengin içerikli program.",
+      "Çocukların duygu ifade becerilerini, özgüvenlerini ve hayal güçlerini geliştiren canlandırma ve rol çalışmaları için tasarlandı.",
     image:
       "https://images.unsplash.com/photo-1502085671122-2d218cd434e6?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1502085671122-2d218cd434e6?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1564429097439-e4003827afc0?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1472162072942-cd5147eb3902?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "muzik-atolyesi",
+    name: "Müzik Atölyesi",
+    description:
+      "Ritim, ses ve hareket odaklı etkinliklerle çocukların işitsel farkındalık ve yaratıcılık becerilerini destekleyen müzik alanı.",
+    image:
+      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1514320291840-2e0a9bf2a9ae?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1520523839897-bd0b52f945a0?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511379938547-c1f69419868d?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "resim-atolyesi",
+    name: "Resim Atölyesi",
+    description:
+      "Renk, doku ve farklı tekniklerle çocukların özgün üretimler yaptığı, hayal dünyalarını görsele dönüştürdüğü sanat ortamı.",
+    image:
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1513364776144-60967b0f800f?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1452860606245-08befc0ff44b?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1502136969935-8d8eef54d77d?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "akil-ve-zeka-oyunlari-atolyesi",
+    name: "Akıl ve Zeka Oyunları Atölyesi",
+    description:
+      "Dikkat, odaklanma, strateji kurma ve problem çözme becerilerini destekleyen eğitsel oyunlarla donatılmış atölye.",
+    image:
+      "https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1606503153255-59d8b8b5b72c?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "ingilizce-sinifimiz",
+    name: "İngilizce Sınıfımız",
+    description:
+      "Oyunlaştırılmış etkinlikler, şarkılar ve etkileşimli materyallerle yabancı dil farkındalığını erken yaşta destekleyen sınıf.",
+    image:
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1513258496099-48168024aec0?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "spor-salonumuz",
+    name: "Spor Salonumuz",
+    description:
+      "Büyük kas gelişimini destekleyen fiziksel aktiviteler, denge-koordinasyon çalışmaları ve hareket oyunları için planlanan kapalı alan.",
+    image:
+      "https://images.unsplash.com/photo-1571019613576-2b22c76fd955?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1571019613576-2b22c76fd955?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1483721310020-03333e577078?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1526676037777-05a232554f77?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "acik-oyun-alanimiz",
+    name: "Açık Oyun Alanımız",
+    description:
+      "Doğayla temas eden etkinlikler, serbest oyun saatleri ve sosyal etkileşimi artıran açık hava aktiviteleri için güvenli bahçe alanı.",
+    image:
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1508214751196-bcfd4ca60f91?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1502781252888-9143ba7f074e?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?q=80&w=1400&auto=format&fit=crop",
+    ],
+  },
+  {
+    slug: "kapali-oyun-alanimiz",
+    name: "Kapalı Oyun Alanımız",
+    description:
+      "Hava koşullarından bağımsız şekilde hareket, denge ve grup oyunlarının sürdürülebildiği güvenli ve eğlenceli iç mekan oyun alanı.",
+    image:
+      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1200&auto=format&fit=crop",
+    images: [
+      "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1544776193-352d25ca82cd?q=80&w=1400&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1519066629447-267fffa62d4b?q=80&w=1400&auto=format&fit=crop",
+    ],
   },
 ];
 

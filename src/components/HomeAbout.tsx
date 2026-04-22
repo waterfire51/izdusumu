@@ -18,6 +18,15 @@ const YELLOW = "#FFD600";
 const GREEN = "#22c55e";
 const PURPLE_BOX = "#A855F7";
 const ORANGE_ACCENT = "#fb923c";
+const WHY_US_CARDS = [
+  { text: "Deneyimli öğretmen kadrosu", color: GREEN },
+  { text: "Güvenli okul ortamı", color: "#0ea5e9" },
+  { text: "Aile ortamında ev sıcaklığı", color: "#f97316" },
+  {
+    text: "Kalabalık olmayan sınıf mevcutları (15 kişilik sınıflar)",
+    color: "#e11d48",
+  },
+];
 
 type ParallaxLayerProps = {
   springX: MotionValue<number>;
@@ -242,11 +251,11 @@ export default function HomeAbout() {
                 weight="duotone"
                 className="text-amber-500"
               />
-              Hakkımızda
+              Neden Biz
             </div>
 
             <h2 className="font-sans text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-[2.5rem]">
-              İzdüşümü Anaokulu&apos;nda misyonumuzu keşfedin
+              İzdüşümü Anaokulu&apos;nda farkımızı keşfedin
             </h2>
 
             <p className="font-display max-w-xl text-lg leading-relaxed text-slate-600">
@@ -255,29 +264,21 @@ export default function HomeAbout() {
               velilerimizin yanındayız.
             </p>
 
-            <div className="space-y-4">
-              <div
-                className="flex gap-4 rounded-2xl border-4 border-black p-5 text-white shadow-[4px_4px_0_#0f172a]"
-                style={{ backgroundColor: GREEN }}
-              >
-                <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border-2 border-white/40 bg-black/10 p-2 sm:h-16 sm:w-16">
-                  <Image
-                    src="/icon/mision.svg"
-                    alt=""
-                    width={57}
-                    height={52}
-                    className="h-9 w-auto max-w-[2.85rem] object-contain sm:h-10"
-                  />
-                </div>
-                <div>
-                  <h3 className="font-sans text-lg font-bold">Misyonumuz</h3>
-                  <p className="font-display mt-1 text-sm leading-relaxed text-white/95">
-                    Okul öncesi dönemde sevgi, merak ve öz güvenle gelişen
-                    bireyler yetiştirmek; her çocuğun potansiyelini görünür kılmak.
+            <div className="grid gap-3 sm:grid-cols-2">
+              {WHY_US_CARDS.map((item) => (
+                <div
+                  key={item.text}
+                  className="rounded-2xl border-4 border-black px-4 py-3 text-white shadow-[4px_4px_0_#0f172a]"
+                  style={{ backgroundColor: item.color }}
+                >
+                  <p className="font-sans text-sm font-bold leading-relaxed sm:text-base">
+                    {item.text}
                   </p>
                 </div>
-              </div>
+              ))}
+            </div>
 
+            <div className="space-y-4">
               <div
                 className="flex gap-4 rounded-2xl border-4 border-black p-5 text-white shadow-[4px_4px_0_#0f172a]"
                 style={{ backgroundColor: PURPLE_BOX }}

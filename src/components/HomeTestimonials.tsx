@@ -19,10 +19,11 @@ const PINK_BG = "#fce7f3";
 const CARD_PURPLE = "#9333ea";
 const NAV_PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
+const WHITE_BG = "#ffffff";
 
 function TestimonialsTopWave() {
   return (
-    <div className="relative -mt-px w-full select-none" aria-hidden>
+    <div className="relative z-0 -mt-px w-full select-none" aria-hidden>
       <div className="relative w-full aspect-[3840/532]">
         <Image
           src="/banner-bg-2.png"
@@ -71,7 +72,15 @@ function CardDecor() {
   );
 }
 
-export default function HomeTestimonials() {
+type HomeTestimonialsProps = {
+  backgroundColor?: "pink" | "white";
+  showTopWave?: boolean;
+};
+
+export default function HomeTestimonials({
+  backgroundColor = "pink",
+  showTopWave = true,
+}: HomeTestimonialsProps) {
   const [index, setIndex] = useState(0);
   const n = testimonials.length;
 
@@ -96,12 +105,12 @@ export default function HomeTestimonials() {
 
   return (
     <section
-      className="relative overflow-x-hidden pb-24 pt-0 md:pb-28"
-      style={{ backgroundColor: PINK_BG }}
+      className="relative isolate overflow-x-hidden pb-24 pt-0 md:pb-28"
+      style={{ backgroundColor: backgroundColor === "white" ? WHITE_BG : PINK_BG }}
     >
-      <TestimonialsTopWave />
+      {showTopWave ? <TestimonialsTopWave /> : null}
 
-      <Container className="relative z-10">
+      <Container className="relative z-20">
         <FadeIn className="mx-auto max-w-2xl text-center">
           <div className="inline-flex items-center justify-center gap-2 font-sans text-sm font-semibold uppercase tracking-[0.2em] text-slate-800">
             <Lightbulb

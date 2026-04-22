@@ -67,10 +67,10 @@ export default function Footer2() {
               ))}
               <li>
                 <Link
-                  href="/veli-menusu"
+                  href="/duyurular"
                   className="inline-block border-b-2 border-transparent transition hover:border-[#8A4FFF] hover:text-[#8A4FFF]"
                 >
-                  Veli menüsü
+                  Duyurular
                 </Link>
               </li>
             </ul>

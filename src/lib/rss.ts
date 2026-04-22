@@ -9,12 +9,12 @@ type Announcement = {
 const fallbackAnnouncements: Announcement[] = [
   {
     title: "Bahar şenliği kayıtları başladı",
-    link: "/veli-menusu",
+    link: "/duyurular",
     date: "10 Nisan 2026",
   },
   {
     title: "Mayıs ayı yemek listesi yayınlandı",
-    link: "/veli-menusu",
+    link: "/duyurular",
     date: "08 Nisan 2026",
   },
   {
@@ -50,7 +50,7 @@ export async function getAnnouncements(): Promise<Announcement[]> {
 
     return (feed.items ?? []).slice(0, 3).map((item) => ({
       title: item.title ?? "Yeni duyuru",
-      link: item.link ?? "/veli-menusu",
+      link: item.link ?? "/duyurular",
       date: normalizeDate(item.isoDate ?? item.pubDate ?? undefined),
     }));
   } catch (error) {

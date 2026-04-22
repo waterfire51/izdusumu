@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import {
-  Baby,
   CaretRight,
   Lightbulb,
 } from "@phosphor-icons/react/dist/ssr";
@@ -12,15 +11,18 @@ import { rooms } from "@/lib/data";
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
-const roomAccent: Record<string, string> = {
-  "gumus-kelebekler": "#9333ea",
-  "mavi-yildizlar": "#6366f1",
-  "gunes-cicekleri": "#f97316",
-};
+const roomAccent = [
+  "#9333ea",
+  "#6366f1",
+  "#f97316",
+  "#22c55e",
+  "#db2777",
+  "#0ea5e9",
+] as const;
 
 export const metadata = {
   title: "Dersliklerimiz | Özel İzdüşümü Anaokulu",
-  description: "Her yaş grubuna özel planlanan dersliklerimizi keşfedin.",
+  description: "Okulumuzdaki tüm derslik ve atölye alanlarını keşfedin.",
 };
 
 export default function RoomsPage() {
@@ -48,11 +50,11 @@ export default function RoomsPage() {
               Derslikler
             </div>
             <h1 className="font-display mt-4 text-3xl font-bold leading-tight text-white sm:text-4xl lg:text-[2.75rem]">
-              Her yaş grubuna özel öğrenme alanları
+              Öğrenme ve etkinlik alanlarımız
             </h1>
             <p className="font-sans mt-4 text-base leading-relaxed text-white/95 sm:text-lg">
-              Sınıflarımız, çocukların yaş ve gelişim özelliklerine uygun olarak
-              düzenlenmiştir. Her dersliği yakından tanıyın.
+              Sinema salonundan atölyelere, oyun alanlarından spor salonuna kadar
+              tüm alanlarımızı yakından inceleyin.
             </p>
             <Link
               href="/iletisim"
@@ -94,15 +96,13 @@ export default function RoomsPage() {
               Dersliklerimiz
             </h2>
             <p className="font-sans mt-3 text-base text-slate-600 sm:text-lg">
-              Ana sayfamızdaki atölye ve yaş gruplarıyla uyumlu, güvenli ve neşeli
-              sınıf ortamları.
+              Eğitim ve gelişimi destekleyen sınıf, atölye ve oyun alanlarımız.
             </p>
           </FadeIn>
 
           <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
             {rooms.map((room, index) => {
-              const color =
-                roomAccent[room.slug] ?? "#8A4FFF";
+              const color = roomAccent[index % roomAccent.length];
               return (
                 <FadeIn key={room.slug} delay={index * 0.06}>
                   <article className="flex h-full flex-col overflow-hidden rounded-2xl border-2 border-black bg-white shadow-[6px_6px_0_#0f172a]">
@@ -119,10 +119,6 @@ export default function RoomsPage() {
                       className="flex flex-1 flex-col px-4 pb-4 pt-4 text-white sm:px-5 sm:pb-5 sm:pt-5"
                       style={{ backgroundColor: color }}
                     >
-                      <div className="inline-flex items-center gap-1.5 font-sans text-xs font-medium text-white/95">
-                        <Baby size={18} weight="duotone" />
-                        {room.ageRange}
-                      </div>
                       <h3 className="font-sans mt-3 text-left text-lg font-bold leading-snug sm:text-xl">
                         {room.name}
                       </h3>

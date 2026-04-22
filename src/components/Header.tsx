@@ -29,7 +29,7 @@ export default function Header() {
             href="/iletisim"
             className="rounded-full bg-sky-500 px-5 py-2 text-sm font-semibold text-white shadow-md transition hover:bg-sky-600"
           >
-            Ön Kayıt
+            Randevu Al
           </Link>
         </div>
         <button
@@ -62,7 +62,7 @@ export default function Header() {
             href="/iletisim"
             className="rounded-full bg-sky-500 px-5 py-2 text-center text-sm font-semibold text-white shadow-md transition hover:bg-sky-600"
           >
-            Ön Kayıt
+            Randevu Al
           </Link>
         </div>
       </div>

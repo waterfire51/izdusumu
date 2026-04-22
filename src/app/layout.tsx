@@ -50,7 +50,7 @@ export default function RootLayout({
       lang="tr"
       className={`${inter.variable} ${nunito.variable} ${quicksand.variable} h-full antialiased`}
     >
-      <body className="min-h-full bg-white text-slate-900">
+      <body suppressHydrationWarning className="min-h-full bg-white text-slate-900">
         <Header2 />
         <main className="flex-1">{children}</main>
         <Footer2 />
