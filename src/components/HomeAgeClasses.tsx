@@ -100,9 +100,21 @@ const iconMap = {
   playground: CloudSun,
   abc: TextAa,
   puzzle: PuzzlePiece,
-} as const;
+};
 
-export default function HomeAgeClasses() {
+type AgeClassItem = {
+  title: string;
+  ageLabel: string;
+  description: string;
+  color: string;
+  icon: string;
+};
+
+export default function HomeAgeClasses({
+  classes = ageClasses,
+}: {
+  classes?: AgeClassItem[];
+}) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const springX = useSpring(mx, { stiffness: 32, damping: 22, mass: 0.45 });
@@ -139,8 +151,9 @@ export default function HomeAgeClasses() {
         </FadeIn>
 
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {ageClasses.map((item, index) => {
-            const Icon = iconMap[item.icon];
+          {classes.map((item, index) => {
+            const Icon =
+              iconMap[item.icon as keyof typeof iconMap] ?? Eyeglasses;
             return (
               <FadeIn key={item.title} delay={index * 0.06}>
                 <div

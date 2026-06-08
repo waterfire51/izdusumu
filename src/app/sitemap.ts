@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: baseUrl, lastModified: new Date() },
     { url: `${baseUrl}/dersliklerimiz`, lastModified: new Date() },
     { url: `${baseUrl}/kurumsal`, lastModified: new Date() },
+    { url: `${baseUrl}/ogretmen-kadromuz`, lastModified: new Date() },
     { url: `${baseUrl}/egitim-programimiz`, lastModified: new Date() },
     { url: `${baseUrl}/veli-yorumlarimiz`, lastModified: new Date() },
     { url: `${baseUrl}/galeri`, lastModified: new Date() },

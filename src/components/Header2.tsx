@@ -16,6 +16,7 @@ const navLinks = [
 
 const aboutLinks = [
   { label: "Hakkımızda", href: "/kurumsal" },
+  { label: "Öğretmen Kadromuz", href: "/ogretmen-kadromuz" },
   { label: "Eğitim Programımız", href: "/egitim-programimiz" },
   { label: "Veli Yorumlarımız", href: "/veli-yorumlarimiz" },
 ];

@@ -15,10 +15,14 @@ function WhatsAppIcon({ className }: { className?: string }) {
   );
 }
 
-export default function WhatsAppButton() {
+export default function WhatsAppButton({
+  whatsapp = "905525310051",
+}: {
+  whatsapp?: string;
+}) {
   return (
     <Link
-      href="https://wa.me/905525310051"
+      href={`https://wa.me/${whatsapp.replace(/\D/g, "")}`}
       aria-label="WhatsApp ile yazın"
       className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 rounded-full border-4 border-black px-4 py-2.5 font-sans text-sm font-bold text-white shadow-[6px_6px_0_#0f172a] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-[4px_4px_0_#0f172a] hover:brightness-95 sm:bottom-6 sm:right-6 sm:px-5 sm:py-3 sm:text-base"
       style={{ backgroundColor: WA_GREEN }}

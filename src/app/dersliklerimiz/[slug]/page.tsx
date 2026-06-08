@@ -8,7 +8,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
-import { rooms } from "@/lib/data";
+import { getRoomBySlug, getRooms } from "@/lib/content";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -18,12 +18,13 @@ const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
 export async function generateStaticParams() {
+  const rooms = await getRooms();
   return rooms.map((room) => ({ slug: room.slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const room = rooms.find((item) => item.slug === slug);
+  const room = await getRoomBySlug(slug);
   if (!room) return {};
 
   return {
@@ -34,7 +35,7 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function RoomDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const room = rooms.find((item) => item.slug === slug);
+  const room = await getRoomBySlug(slug);
   if (!room) notFound();
 
   const gallery = room.images?.length ? room.images : [room.image];

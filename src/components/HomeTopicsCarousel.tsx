@@ -30,7 +30,17 @@ const iconMap = {
   lang: GlobeHemisphereWest,
 } as const;
 
-export default function HomeTopicsCarousel() {
+type TopicItem = {
+  label: string;
+  color: string;
+  icon: string;
+};
+
+export default function HomeTopicsCarousel({
+  topics = popularClassTopics,
+}: {
+  topics?: TopicItem[];
+}) {
   const viewportRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLElement>(null);
@@ -41,7 +51,7 @@ export default function HomeTopicsCarousel() {
   const [maxIndex, setMaxIndex] = useState(0);
   const [metrics, setMetrics] = useState({ trackW: 0, viewW: 0 });
 
-  const count = popularClassTopics.length;
+  const count = topics.length;
 
   const measure = useCallback(() => {
     const viewport = viewportRef.current;
@@ -193,8 +203,9 @@ export default function HomeTopicsCarousel() {
                 animate={{ x: translateX }}
                 transition={{ type: "spring", stiffness: 260, damping: 34 }}
               >
-                {popularClassTopics.map((item) => {
-                  const Icon = iconMap[item.icon];
+                {topics.map((item) => {
+                  const Icon =
+                    iconMap[item.icon as keyof typeof iconMap] ?? Lightbulb;
                   return (
                     <div
                       key={item.label}
@@ -241,7 +252,7 @@ export default function HomeTopicsCarousel() {
             role="tablist"
             aria-label="Slayt göstergesi"
           >
-            {popularClassTopics.map((_, i) => (
+            {topics.map((_, i) => (
               <button
                 key={i}
                 type="button"

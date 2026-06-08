@@ -18,7 +18,9 @@ const YELLOW = "#FFD600";
 const GREEN = "#22c55e";
 const PURPLE_BOX = "#A855F7";
 const ORANGE_ACCENT = "#fb923c";
-const WHY_US_CARDS = [
+type WhyUsCard = { text: string; color: string };
+
+const DEFAULT_WHY_US: WhyUsCard[] = [
   { text: "Deneyimli öğretmen kadrosu", color: GREEN },
   { text: "Güvenli okul ortamı", color: "#0ea5e9" },
   { text: "Aile ortamında ev sıcaklığı", color: "#f97316" },
@@ -125,7 +127,21 @@ function DoodleDots({ className }: { className?: string }) {
   );
 }
 
-export default function HomeAbout() {
+export default function HomeAbout({
+  badgeLabel = "Neden Biz",
+  sectionTitle = "İzdüşümü Anaokulu'nda farkımızı keşfedin",
+  sectionDescription = "Her çocuğun kendine özgü ritimde büyümesine inanıyoruz. Güvenli ortamımızda oyun, sanat ve keşifle desteklenen bir eğitim anlayışıyla velilerimizin yanındayız.",
+  whyUsCards = DEFAULT_WHY_US,
+  commitmentTitle = "Taahhüdümüz",
+  commitmentText = "Şeffaf iletişim, güvenli fiziki ortam ve alanında uzman ekibimizle kaliteli eğitimi sürdürülebilir kılmak.",
+}: {
+  badgeLabel?: string;
+  sectionTitle?: string;
+  sectionDescription?: string;
+  whyUsCards?: WhyUsCard[];
+  commitmentTitle?: string;
+  commitmentText?: string;
+}) {
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const springX = useSpring(mx, { stiffness: 26, damping: 19, mass: 0.5 });
@@ -251,21 +267,19 @@ export default function HomeAbout() {
                 weight="duotone"
                 className="text-amber-500"
               />
-              Neden Biz
+              {badgeLabel}
             </div>
 
             <h2 className="font-sans text-3xl font-bold leading-tight text-slate-900 sm:text-4xl lg:text-[2.5rem]">
-              İzdüşümü Anaokulu&apos;nda farkımızı keşfedin
+              {sectionTitle}
             </h2>
 
             <p className="font-display max-w-xl text-lg leading-relaxed text-slate-600">
-              Her çocuğun kendine özgü ritimde büyümesine inanıyoruz. Güvenli
-              ortamımızda oyun, sanat ve keşifle desteklenen bir eğitim anlayışıyla
-              velilerimizin yanındayız.
+              {sectionDescription}
             </p>
 
             <div className="grid gap-3 sm:grid-cols-2">
-              {WHY_US_CARDS.map((item) => (
+              {whyUsCards.map((item) => (
                 <div
                   key={item.text}
                   className="rounded-2xl border-4 border-black px-4 py-3 text-white shadow-[4px_4px_0_#0f172a]"
@@ -293,10 +307,9 @@ export default function HomeAbout() {
                   />
                 </div>
                 <div>
-                  <h3 className="font-sans text-lg font-bold">Taahhüdümüz</h3>
+                  <h3 className="font-sans text-lg font-bold">{commitmentTitle}</h3>
                   <p className="font-display mt-1 text-sm leading-relaxed text-white/95">
-                    Şeffaf iletişim, güvenli fiziki ortam ve alanında uzman
-                    ekibimizle kaliteli eğitimi sürdürülebilir kılmak.
+                    {commitmentText}
                   </p>
                 </div>
               </div>

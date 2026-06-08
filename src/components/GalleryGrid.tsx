@@ -20,9 +20,9 @@ export default function GalleryGrid({ items }: GalleryGridProps) {
   return (
     <>
       <div className="columns-1 gap-6 md:columns-2 lg:columns-3">
-        {items.map((item) => (
+        {items.map((item, index) => (
           <button
-            key={item.src}
+            key={`${item.src}-${index}`}
             type="button"
             className="group mb-6 w-full break-inside-avoid overflow-hidden rounded-2xl border-2 border-black bg-white text-left shadow-[6px_6px_0_#0f172a] transition hover:-translate-y-0.5 hover:shadow-[8px_8px_0_#0f172a]"
             onClick={() => setActive(item)}

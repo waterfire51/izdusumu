@@ -1,0 +1,241 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id            String  @id @default("default")
+  address       String
+  phone         String
+  email         String
+  hours         String
+  whatsapp      String
+  mapEmbedUrl   String?
+  instagram     String?
+  facebook      String?
+  youtube       String?
+  footerTagline String?
+}
+
+model HeroSection {
+  id                 String @id @default("default")
+  headline           String
+  headlineHighlight1 String
+  headlineHighlight2 String
+  subtitle           String
+  videoUrl           String
+  ctaText            String
+  ctaHref            String
+}
+
+model HomeAbout {
+  id                 String @id @default("default")
+  badgeLabel         String @default("Neden Biz")
+  sectionTitle       String @default("İzdüşümü Anaokulu'nda farkımızı keşfedin")
+  sectionDescription String @default("") @db.Text
+  commitmentTitle    String
+  commitmentText     String @db.Text
+}
+
+model WhyUsCard {
+  id          String @id @default(cuid())
+  title       String
+  description String @db.Text
+  icon        String
+  color       String
+  sortOrder   Int    @default(0)
+}
+
+model AboutPage {
+  id                 String @id @default("default")
+  heroBadgeLabel     String @default("Kurumsal")
+  heroTitle          String
+  heroSubtitle       String
+  aboutBadgeLabel    String @default("Hakkımızda")
+  aboutSectionTitle  String @default("Misyonumuz, vizyonumuz ve eğitim anlayışımız")
+  aboutSectionSubtitle String @default("") @db.Text
+  missionText        String @db.Text
+  visionText         String @db.Text
+  educationModelText String @db.Text
+  storyBadgeLabel    String @default("Hikayemiz")
+  storyTitle         String @default("2019'dan bugüne sevgiyle büyüyen bir yolculuk")
+  storyText          String @db.Text
+  teachersBadgeLabel String @default("Öğretmen Kadrosu")
+  teachersTitle      String @default("Alanında uzman, sevgi dolu ekip")
+  teachersSubtitle   String @default("") @db.Text
+}
+
+model EducationProgramSection {
+  id        String  @id @default(cuid())
+  key       String  @unique
+  title     String?
+  content   String  @db.Text
+  icon      String?
+  sortOrder Int     @default(0)
+}
+
+model Testimonial {
+  id        String  @id @default(cuid())
+  type      String
+  name      String
+  role      String?
+  quote     String? @db.Text
+  rating    Int?
+  videoUrl  String?
+  title     String?
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model Room {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String   @db.Text
+  image       String
+  images      String[]
+  sortOrder   Int      @default(0)
+  published   Boolean  @default(true)
+}
+
+model AgeClass {
+  id          String @id @default(cuid())
+  title       String
+  ageLabel    String
+  description String @db.Text
+  color       String
+  icon        String
+  sortOrder   Int    @default(0)
+}
+
+model ClassTopic {
+  id        String @id @default(cuid())
+  label     String
+  color     String
+  icon      String
+  sortOrder Int    @default(0)
+}
+
+model ClassroomShowcase {
+  id           String @id @default(cuid())
+  slug         String
+  title        String
+  ageRange     String
+  duration     String
+  rating       Float
+  reviewCount  Int
+  teacherName  String
+  teacherImage String
+  color        String
+  image        String
+  sortOrder    Int    @default(0)
+}
+
+model Teacher {
+  id          String @id @default(cuid())
+  name        String
+  role        String
+  description String @db.Text
+  image       String?
+  sortOrder   Int    @default(0)
+}
+
+model Announcement {
+  id        String  @id @default(cuid())
+  text      String  @db.Text
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model MealMenu {
+  id        String @id @default(cuid())
+  day       String
+  menu      String @db.Text
+  sortOrder Int    @default(0)
+}
+
+model Event {
+  id        String @id @default(cuid())
+  date      String
+  title     String
+  sortOrder Int    @default(0)
+}
+
+model BlogPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  summary   String   @db.Text
+  content   String[]
+  date      DateTime
+  published Boolean  @default(true)
+}
+
+model PressPost {
+  id        String   @id @default(cuid())
+  slug      String   @unique
+  title     String
+  summary   String   @db.Text
+  source    String
+  content   String[]
+  date      DateTime
+  published Boolean  @default(true)
+}
+
+model GalleryItem {
+  id        String  @id @default(cuid())
+  src       String
+  alt       String
+  category  String
+  sortOrder Int     @default(0)
+  published Boolean @default(true)
+}
+
+model RegistrationForm {
+  id          String                   @id @default(cuid())
+  slug        String                   @unique
+  title       String
+  description String                   @db.Text
+  fields      Json
+  published   Boolean                  @default(true)
+  createdAt   DateTime                 @default(now())
+  submissions RegistrationSubmission[]
+}
+
+model RegistrationSubmission {
+  id        String           @id @default(cuid())
+  formId    String
+  form      RegistrationForm @relation(fields: [formId], references: [id], onDelete: Cascade)
+  data      Json
+  createdAt DateTime         @default(now())
+
+  @@index([formId])
+}
+
+model PageVisit {
+  id           String   @id @default(cuid())
+  path         String
+  referrer     String?
+  referrerHost String?
+  utmSource    String?
+  utmMedium    String?
+  utmCampaign  String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([referrerHost])
+  @@index([utmSource])
+}

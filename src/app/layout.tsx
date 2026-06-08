@@ -4,6 +4,9 @@ import "./globals.css";
 import Header2 from "@/components/Header2";
 import Footer2 from "@/components/Footer2";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import VisitTracker from "@/components/VisitTracker";
+import { getSiteSettings } from "@/lib/content";
+import { headers } from "next/headers";
 
 const inter = Inter({
   variable: "--font-primary",
@@ -40,21 +43,29 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [settings, h] = await Promise.all([getSiteSettings(), headers()]);
+  const pathname = h.get("x-url")?.split("?")[0] ?? "";
+  const isAdmin = pathname.startsWith("/admin");
+
   return (
     <html
       lang="tr"
       className={`${inter.variable} ${nunito.variable} ${quicksand.variable} h-full antialiased`}
     >
-      <body suppressHydrationWarning className="min-h-full bg-white text-slate-900">
-        <Header2 />
+      <body
+        suppressHydrationWarning
+        className={isAdmin ? "min-h-full bg-[#f1f5f9]" : "min-h-full bg-white text-slate-900"}
+      >
+        {!isAdmin ? <VisitTracker /> : null}
+        {!isAdmin ? <Header2 /> : null}
         <main className="flex-1">{children}</main>
-        <Footer2 />
-        <WhatsAppButton />
+        {!isAdmin ? <Footer2 settings={settings} /> : null}
+        {!isAdmin ? <WhatsAppButton whatsapp={settings.whatsapp} /> : null}
       </body>
     </html>
   );

@@ -6,26 +6,9 @@ import {
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import HomeTestimonials from "@/components/HomeTestimonials";
+import { getTestimonials } from "@/lib/content";
 
 const PURPLE = "#8A4FFF";
-
-const videoTestimonials = [
-  {
-    title: "Veli Görüşü 01",
-    parent: "Elif Hanım",
-    src: "/videos/hero-drone.mp4",
-  },
-  {
-    title: "Veli Görüşü 02",
-    parent: "Mehmet Bey",
-    src: "/videos/hero-drone.mp4",
-  },
-  {
-    title: "Veli Görüşü 03",
-    parent: "Selin Hanım",
-    src: "/videos/hero-drone.mp4",
-  },
-];
 
 export const metadata = {
   title: "Veli Yorumlarımız | Özel İzdüşümü Anaokulu",
@@ -33,7 +16,12 @@ export const metadata = {
     "Velilerimizin yazılı ve videolu deneyimlerini bir arada inceleyin.",
 };
 
-export default function ParentTestimonialsPage() {
+export default async function ParentTestimonialsPage() {
+  const [textItems, videoItems] = await Promise.all([
+    getTestimonials("text"),
+    getTestimonials("video"),
+  ]);
+
   return (
     <div>
       <section
@@ -80,7 +68,16 @@ export default function ParentTestimonialsPage() {
         </div>
       </section>
 
-      <HomeTestimonials backgroundColor="white" showTopWave={false} />
+      <HomeTestimonials
+        backgroundColor="white"
+        showTopWave={false}
+        items={textItems.map((t) => ({
+          name: t.name,
+          role: t.role,
+          quote: t.quote,
+          rating: t.rating,
+        }))}
+      />
 
       <section className="page-section bg-white">
         <Container>
@@ -103,8 +100,8 @@ export default function ParentTestimonialsPage() {
           </FadeIn>
 
           <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {videoTestimonials.map((item, index) => (
-              <FadeIn key={item.title} delay={index * 0.05}>
+            {videoItems.map((item, index) => (
+              <FadeIn key={item.id ?? index} delay={index * 0.05}>
                 <article className="overflow-hidden rounded-3xl border-2 border-black bg-white shadow-[6px_6px_0_#0f172a]">
                   <div className="relative aspect-[9/16] bg-slate-900">
                     <video
@@ -112,7 +109,7 @@ export default function ParentTestimonialsPage() {
                       preload="metadata"
                       className="h-full w-full object-cover"
                     >
-                      <source src={item.src} type="video/mp4" />
+                      <source src={item.videoUrl ?? ""} type="video/mp4" />
                     </video>
                     <div className="pointer-events-none absolute right-3 top-3 rounded-full border-2 border-black bg-[#FFD600] p-1.5 text-slate-900 shadow-[2px_2px_0_#0f172a]">
                       <PlayCircle size={20} weight="fill" />
@@ -120,10 +117,10 @@ export default function ParentTestimonialsPage() {
                   </div>
                   <div className="p-4">
                     <h3 className="font-sans text-lg font-bold text-slate-900">
-                      {item.title}
+                      {item.title ?? item.name}
                     </h3>
                     <p className="font-display mt-1 text-sm text-slate-600">
-                      {item.parent}
+                      {item.name}
                     </p>
                   </div>
                 </article>

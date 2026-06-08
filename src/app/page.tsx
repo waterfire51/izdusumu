@@ -1,34 +1,54 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Flask, PaintBrush, PuzzlePiece } from "@phosphor-icons/react/dist/ssr";
-import Container from "@/components/Container";
-import FadeIn from "@/components/FadeIn";
 import HomeAbout from "@/components/HomeAbout";
 import HomeAgeClasses from "@/components/HomeAgeClasses";
 import HomeHero from "@/components/HomeHero";
 import HomeClassroomsCarousel from "@/components/HomeClassroomsCarousel";
 import HomeTestimonials from "@/components/HomeTestimonials";
 import HomeTopicsCarousel from "@/components/HomeTopicsCarousel";
-import SectionHeading from "@/components/SectionHeading";
-import { faqItems, galleryItems, programs } from "@/lib/data";
-import { getAnnouncements } from "@/lib/rss";
+import {
+  getAgeClasses,
+  getClassroomShowcase,
+  getClassTopics,
+  getHeroSection,
+  getHomeAbout,
+  getTestimonials,
+} from "@/lib/content";
 
 export default async function Home() {
-  const announcements = await getAnnouncements();
+  const [hero, homeAbout, ageClasses, topics, showcase, textTestimonials] =
+    await Promise.all([
+      getHeroSection(),
+      getHomeAbout(),
+      getAgeClasses(),
+      getClassTopics(),
+      getClassroomShowcase(),
+      getTestimonials("text"),
+    ]);
 
   return (
     <div>
-      <HomeHero />
-
-      <HomeAbout />
-
-      <HomeAgeClasses />
-
-      <HomeTopicsCarousel />
-
-      <HomeClassroomsCarousel />
-
-      <HomeTestimonials />
+      <HomeHero content={hero} />
+      <HomeAbout
+        badgeLabel={homeAbout.badgeLabel}
+        sectionTitle={homeAbout.sectionTitle}
+        sectionDescription={homeAbout.sectionDescription}
+        whyUsCards={homeAbout.whyUsCards.map((c) => ({
+          text: c.text,
+          color: c.color,
+        }))}
+        commitmentTitle={homeAbout.commitmentTitle}
+        commitmentText={homeAbout.commitmentText}
+      />
+      <HomeAgeClasses classes={ageClasses} />
+      <HomeTopicsCarousel topics={topics} />
+      <HomeClassroomsCarousel items={showcase} />
+      <HomeTestimonials
+        items={textTestimonials.map((t) => ({
+          name: t.name,
+          role: t.role,
+          quote: t.quote,
+          rating: t.rating,
+        }))}
+      />
     </div>
   );
 }

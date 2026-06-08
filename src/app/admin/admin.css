@@ -1,0 +1,7 @@
+@import "tailwindcss";
+
+@theme {
+  --color-admin-sidebar: #1c2434;
+  --color-admin-primary: #3c50e0;
+  --color-admin-body: #f1f5f9;
+}

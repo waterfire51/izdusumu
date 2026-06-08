@@ -11,13 +11,33 @@ import { navLinks } from "@/lib/data";
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
-const social = [
-  { label: "Instagram", href: "https://instagram.com" },
-  { label: "Facebook", href: "https://facebook.com" },
-  { label: "YouTube", href: "https://youtube.com" },
-] as const;
+type SiteSettings = {
+  address: string;
+  phone: string;
+  email: string;
+  hours: string;
+  footerTagline?: string | null;
+  instagram?: string | null;
+  facebook?: string | null;
+  youtube?: string | null;
+};
 
-export default function Footer2() {
+export default function Footer2({ settings }: { settings?: SiteSettings }) {
+  const address =
+    settings?.address ??
+    "Selçuk Mahallesi, Sabancı Bulvarı Caddesi No: 40/1, Niğde";
+  const phone = settings?.phone ?? "+90 552 531 00 51";
+  const email = settings?.email ?? "iletisim@izdusumuanaokulu.com";
+  const hours = settings?.hours ?? "Hafta içi 08:30 - 17:30";
+  const tagline =
+    settings?.footerTagline ??
+    "Çocukların güvenle keşfettiği, velilerin huzurla desteklediği modern ve renkli bir eğitim yuvası.";
+
+  const social = [
+    settings?.instagram && { label: "Instagram", href: settings.instagram },
+    settings?.facebook && { label: "Facebook", href: settings.facebook },
+    settings?.youtube && { label: "YouTube", href: settings.youtube },
+  ].filter(Boolean) as { label: string; href: string }[];
   return (
     <footer className="mt-auto border-t-2 border-black bg-amber-50/50">
       <div className="mx-auto w-full max-w-6xl px-6 py-12 lg:px-10 lg:py-14">
@@ -25,8 +45,7 @@ export default function Footer2() {
           <div>
             <Logo footer />
             <p className="font-display mt-4 max-w-sm text-sm leading-relaxed text-slate-700">
-              Çocukların güvenle keşfettiği, velilerin huzurla desteklediği
-              modern ve renkli bir eğitim yuvası.
+              {tagline}
             </p>
             <div className="mt-5 flex flex-wrap gap-2">
               {social.map((s) => (
@@ -88,9 +107,7 @@ export default function Footer2() {
                 >
                   <MapPin size={18} weight="duotone" className="text-fuchsia-600" />
                 </span>
-                <span className="font-display leading-snug">
-                  Selçuk Mahallesi, Sabancı Bulvarı Caddesi No: 40/1, Niğde
-                </span>
+                <span className="font-display leading-snug">{address}</span>
               </li>
               <li className="flex gap-3">
                 <span
@@ -100,10 +117,10 @@ export default function Footer2() {
                   <Phone size={18} weight="duotone" className="text-fuchsia-600" />
                 </span>
                 <a
-                  href="tel:+905525310051"
+                  href={`tel:${phone.replace(/\s/g, "")}`}
                   className="font-display font-bold hover:text-[#8A4FFF]"
                 >
-                  +90 552 531 00 51
+                  {phone}
                 </a>
               </li>
               <li className="flex gap-3">
@@ -118,10 +135,10 @@ export default function Footer2() {
                   />
                 </span>
                 <a
-                  href="mailto:iletisim@izdusumuanaokulu.com"
+                  href={`mailto:${email}`}
                   className="font-display break-all font-semibold hover:text-[#8A4FFF]"
                 >
-                  iletisim@izdusumuanaokulu.com
+                  {email}
                 </a>
               </li>
               <li className="flex gap-3">
@@ -131,9 +148,7 @@ export default function Footer2() {
                 >
                   <Clock size={18} weight="duotone" className="text-fuchsia-600" />
                 </span>
-                <span className="font-display font-medium">
-                  Hafta içi 08:30 - 17:30
-                </span>
+                <span className="font-display font-medium">{hours}</span>
               </li>
             </ul>
           </div>

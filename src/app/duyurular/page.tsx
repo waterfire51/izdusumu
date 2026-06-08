@@ -13,9 +13,13 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
-import { parentMenu } from "@/lib/data";
-import { educationBlogPosts } from "@/lib/blog";
-import { pressPosts } from "@/lib/press";
+import {
+  getAnnouncements,
+  getBlogPosts,
+  getEvents,
+  getMealMenus,
+  getPressPosts,
+} from "@/lib/content";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -25,7 +29,15 @@ export const metadata = {
   description: "Etkinlikler, özel günler, eğitim yazıları ve veli özeti.",
 };
 
-export default function AnnouncementsPage() {
+export default async function AnnouncementsPage() {
+  const [announcements, meals, events, blogPosts, pressItems] = await Promise.all([
+    getAnnouncements(),
+    getMealMenus(),
+    getEvents(),
+    getBlogPosts(),
+    getPressPosts(),
+  ]);
+
   return (
     <div>
       <section
@@ -152,14 +164,20 @@ export default function AnnouncementsPage() {
                   Eğitim Yazıları (Blog)
                 </h3>
                 <div className="mt-5 space-y-4">
-                  {educationBlogPosts.map((post) => (
+                  {blogPosts.map((post) => (
                     <Link
                       key={post.slug}
                       href={`/duyurular/blog/${post.slug}`}
                       className="block rounded-xl border-2 border-slate-200 p-4 transition hover:border-fuchsia-300 hover:bg-fuchsia-50/40"
                     >
                       <p className="font-sans text-xs font-bold uppercase tracking-wide text-fuchsia-700">
-                        {post.date}
+                        {post.date instanceof Date
+                          ? post.date.toLocaleDateString("tr-TR", {
+                              day: "numeric",
+                              month: "long",
+                              year: "numeric",
+                            })
+                          : post.date}
                       </p>
                       <h4 className="mt-1 font-sans text-base font-bold text-slate-900">
                         {post.title}
@@ -182,7 +200,7 @@ export default function AnnouncementsPage() {
                   </h3>
                 </div>
                 <ul className="font-display mt-4 space-y-3 text-sm leading-relaxed text-slate-800">
-                  {pressPosts.map((item) => (
+                  {pressItems.map((item) => (
                     <li key={item.slug} className="flex gap-2">
                       <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-fuchsia-600" />
                       <Link
@@ -227,7 +245,7 @@ export default function AnnouncementsPage() {
                   <h3 className="font-sans text-lg font-bold">Duyurular</h3>
                 </div>
                 <ul className="font-display space-y-3 p-5 text-sm leading-relaxed text-slate-700">
-                  {parentMenu.announcements.map((item) => (
+                  {announcements.map((item) => (
                     <li key={item} className="flex gap-2">
                       <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-fuchsia-500" />
                       <span>{item}</span>
@@ -247,7 +265,7 @@ export default function AnnouncementsPage() {
                   <h3 className="font-sans text-lg font-bold">Yemek listesi</h3>
                 </div>
                 <ul className="font-display space-y-3 p-5 text-sm leading-relaxed text-slate-700">
-                  {parentMenu.meals.map((meal) => (
+                  {meals.map((meal) => (
                     <li key={meal.day}>
                       <span className="font-bold text-slate-900">
                         {meal.day}:
@@ -273,7 +291,7 @@ export default function AnnouncementsPage() {
                   <h3 className="font-sans text-lg font-bold">Etkinlik takvimi</h3>
                 </div>
                 <ul className="font-display space-y-3 p-5 text-sm leading-relaxed text-slate-700">
-                  {parentMenu.events.map((event) => (
+                  {events.map((event) => (
                     <li key={event.title}>
                       <span className="font-bold text-slate-900">
                         {event.date}:

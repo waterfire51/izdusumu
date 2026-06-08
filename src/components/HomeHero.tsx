@@ -74,7 +74,27 @@ function useParallaxFactors(count: number) {
   }, [count]);
 }
 
-export default function HomeHero() {
+export type HeroContent = {
+  headline: string;
+  headlineHighlight1: string;
+  headlineHighlight2: string;
+  subtitle: string;
+  videoUrl: string;
+  ctaText: string;
+  ctaHref: string;
+};
+
+export default function HomeHero({ content }: { content?: HeroContent }) {
+  const hero = content ?? {
+    headline: "İz Düşümü Anaokulu'nda Güzel Dokunuşlar",
+    headlineHighlight1: "İz Düşümü Anaokulu",
+    headlineHighlight2: "İz Bırakır",
+    subtitle:
+      "Her gün yeni keşifler ve gelişim fırsatları sunan sıcak bir topluluğa hoş geldiniz. Güvenli, neşeli ve öğrenmeye açık bir ortamda çocuklarınızın yanındayız.",
+    videoUrl: "/videos/hero-drone.mp4",
+    ctaText: "2-6 Yaş Arası Çocuklarımız İçin",
+    ctaHref: "/dersliklerimiz",
+  };
   const videoRef = useRef<HTMLVideoElement>(null);
   const dialogId = useId();
   const [videoOpen, setVideoOpen] = useState(false);
@@ -274,27 +294,25 @@ export default function HomeHero() {
       <Container className="relative z-10 grid min-h-[min(88vh,820px)] items-end gap-8 pb-4 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-6 lg:pt-6">
         <FadeIn className="max-lg:pb-[min(48vh,380px)] space-y-6 pb-8 lg:pb-24">
           <h1 className="font-hero text-[2.1rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
-            {" "}
             <span style={{ color: YELLOW }} className="font-bold">
-              İz Düşümü Anaokulu
+              {hero.headlineHighlight1}
             </span>
-            &apos;nda Güzel Dokunuşlar  <span style={{ color: YELLOW }} className="font-bold">
-              İz Bırakır
+            &apos;nda Güzel Dokunuşlar{" "}
+            <span style={{ color: YELLOW }} className="font-bold">
+              {hero.headlineHighlight2}
             </span>
           </h1>
           <p className="max-w-xl font-hero text-base font-medium leading-relaxed text-white/95 sm:text-lg">
-            Her gün yeni keşifler ve gelişim fırsatları sunan sıcak bir topluluğa
-            hoş geldiniz. Güvenli, neşeli ve öğrenmeye açık bir ortamda
-            çocuklarınızın yanındayız.
+            {hero.subtitle}
           </p>
 
           <div className="flex flex-wrap items-center gap-4">
             <Link
-              href="/dersliklerimiz"
+              href={hero.ctaHref}
               className="font-hero inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 active:scale-[0.99]"
               style={{ backgroundColor: YELLOW }}
             >
-              2-6 Yaş Arası Çocuklarımız İçin
+              {hero.ctaText}
               <CaretRight size={18} weight="bold" />
             </Link>
             <button
@@ -352,7 +370,7 @@ export default function HomeHero() {
               playsInline
               preload="metadata"
             >
-              <source src="/videos/hero-drone.mp4" type="video/mp4" />
+              <source src={hero.videoUrl} type="video/mp4" />
             </video>
           </div>
         </div>

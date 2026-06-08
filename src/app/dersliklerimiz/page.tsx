@@ -6,7 +6,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
-import { rooms } from "@/lib/data";
+import { getRooms } from "@/lib/content";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -25,7 +25,9 @@ export const metadata = {
   description: "Okulumuzdaki tüm derslik ve atölye alanlarını keşfedin.",
 };
 
-export default function RoomsPage() {
+export default async function RoomsPage() {
+  const rooms = await getRooms();
+
   return (
     <div>
       <section

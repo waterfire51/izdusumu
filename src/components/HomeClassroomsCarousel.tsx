@@ -51,7 +51,24 @@ function StarRow({ rating }: { rating: number }) {
   );
 }
 
-export default function HomeClassroomsCarousel() {
+type ShowcaseItem = {
+  slug: string;
+  title: string;
+  ageRange: string;
+  duration: string;
+  rating: number;
+  reviewCount: number;
+  teacherName: string;
+  teacherImage: string;
+  color: string;
+  image: string;
+};
+
+export default function HomeClassroomsCarousel({
+  items = classroomShowcase,
+}: {
+  items?: ShowcaseItem[];
+}) {
   const [favorites, setFavorites] = useState<Record<string, boolean>>({});
 
   const toggleFav = (key: string) => {
@@ -81,7 +98,7 @@ export default function HomeClassroomsCarousel() {
 
         <FadeIn className="mt-12 w-full md:mt-14" delay={0.05}>
           <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-4">
-            {classroomShowcase.map((room, i) => {
+            {items.map((room, i) => {
               const favKey = `${room.slug}-${i}`;
               const fav = favorites[favKey];
               return (

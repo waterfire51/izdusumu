@@ -8,7 +8,7 @@ import {
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import GalleryGrid from "@/components/GalleryGrid";
-import { galleryItems } from "@/lib/data";
+import { getGalleryItems } from "@/lib/content";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -18,7 +18,9 @@ export const metadata = {
   description: "Etkinliklerden ve günlük yaşamdan kareler.",
 };
 
-export default function GalleryPage() {
+export default async function GalleryPage() {
+  const items = await getGalleryItems();
+
   return (
     <div>
       <section
@@ -95,7 +97,7 @@ export default function GalleryPage() {
           </FadeIn>
 
           <FadeIn className="mt-12" delay={0.05}>
-            <GalleryGrid items={galleryItems} />
+            <GalleryGrid items={items} />
           </FadeIn>
         </Container>
       </section>

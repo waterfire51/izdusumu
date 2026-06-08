@@ -72,17 +72,27 @@ function CardDecor() {
   );
 }
 
+type TestimonialItem = {
+  name: string;
+  role?: string | null;
+  quote?: string | null;
+  rating?: number | null;
+};
+
 type HomeTestimonialsProps = {
   backgroundColor?: "pink" | "white";
   showTopWave?: boolean;
+  items?: TestimonialItem[];
 };
 
 export default function HomeTestimonials({
   backgroundColor = "pink",
   showTopWave = true,
+  items,
 }: HomeTestimonialsProps) {
+  const list = items ?? testimonials;
   const [index, setIndex] = useState(0);
-  const n = testimonials.length;
+  const n = list.length;
 
   const next = useCallback(() => {
     setIndex((i) => (i + 1) % n);
@@ -101,7 +111,8 @@ export default function HomeTestimonials({
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  const item = testimonials[index];
+  const item = list[index];
+  const rating = item.rating ?? 5;
 
   return (
     <section
@@ -167,15 +178,15 @@ export default function HomeTestimonials({
                     </p>
                     <div
                       className="mt-6 flex justify-center gap-0.5"
-                      aria-label={`${item.rating} üzerinden 5 yıldız`}
+                      aria-label={`${rating} üzerinden 5 yıldız`}
                     >
                       {Array.from({ length: 5 }, (_, i) => (
                         <Star
                           key={i}
                           size={26}
-                          weight={i < item.rating ? "fill" : "regular"}
+                          weight={i < rating ? "fill" : "regular"}
                           className={
-                            i < item.rating
+                            i < rating
                               ? "text-[#FFD600]"
                               : "text-white/50"
                           }
