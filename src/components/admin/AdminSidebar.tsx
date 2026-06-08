@@ -21,6 +21,7 @@ import {
   SignOut,
   UsersThree,
 } from "@phosphor-icons/react";
+import { SITE_URL } from "@/lib/site-url";
 
 const nav = [
   { href: "/admin", label: "Dashboard", icon: ChartBar },
@@ -92,8 +93,9 @@ export default function AdminSidebar() {
 
       <div className="border-t border-white/10 p-4">
         <Link
-          href="/"
+          href={SITE_URL}
           target="_blank"
+          rel="noopener noreferrer"
           className="mb-2 flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-white/70 hover:bg-white/10 hover:text-white"
         >
           <House size={18} />

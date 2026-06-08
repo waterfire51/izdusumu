@@ -21,6 +21,7 @@ import {
   saveBlogPost,
   savePressPost,
 } from "@/lib/admin-actions";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Tab = "blog" | "press";
 
@@ -412,10 +413,11 @@ export default function BlogPressAdminPanel({
                   <Link
                     href={
                       tab === "blog"
-                        ? `/duyurular/blog/${item.slug}`
-                        : `/duyurular/basinda-biz/${item.slug}`
+                        ? absoluteUrl(`/duyurular/blog/${item.slug}`)
+                        : absoluteUrl(`/duyurular/basinda-biz/${item.slug}`)
                     }
                     target="_blank"
+                    rel="noopener noreferrer"
                     className="rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-[#3c50e0]"
                     title="Önizle"
                   >

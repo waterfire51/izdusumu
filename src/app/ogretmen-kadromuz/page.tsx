@@ -3,7 +3,9 @@ import Link from "next/link";
 import { Lightbulb, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getTeachers } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -17,16 +19,25 @@ const PAGE_HEADER = {
 
 const teacherAccent = ["#8A4FFF", "#f97316", "#6366f1", "#22c55e"] as const;
 
-export const metadata = {
-  title: "Öğretmen Kadromuz | Özel İzdüşümü Anaokulu",
-  description: "Alanında uzman, sevgi dolu öğretmen kadromuzla tanışın.",
-};
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu Öğretmen Kadrosu",
+  description:
+    "Niğde anaokulu İzdüşümü öğretmen kadrosu: alanında uzman, deneyimli ve sevgi dolu eğitimcilerle okul öncesi eğitim.",
+  path: "/ogretmen-kadromuz",
+  keywords: ["Niğde anaokulu öğretmenleri", "Niğde okul öncesi öğretmen kadrosu"],
+});
 
 export default async function TeachersPage() {
   const teachers = await getTeachers();
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Öğretmen Kadromuz", path: "/ogretmen-kadromuz" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

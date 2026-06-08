@@ -10,6 +10,7 @@ import {
   parseFormFields,
   type RegistrationFieldConfig,
 } from "@/lib/registration-form-fields";
+import { absoluteUrl } from "@/lib/site-url";
 
 type Submission = {
   id: string;
@@ -39,7 +40,7 @@ function CopyLinkButton({ slug }: { slug: string }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
-    const url = `${window.location.origin}/kayit/${slug}`;
+    const url = absoluteUrl(`/kayit/${slug}`);
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -104,8 +105,9 @@ export default function RegistrationSubmissionsPanel({
           <div className="flex gap-2">
             <CopyLinkButton slug={form.slug} />
             <Link
-              href={`/kayit/${form.slug}`}
+              href={absoluteUrl(`/kayit/${form.slug}`)}
               target="_blank"
+              rel="noopener noreferrer"
               className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:border-[#3c50e0] hover:text-[#3c50e0]"
             >
               Formu Görüntüle

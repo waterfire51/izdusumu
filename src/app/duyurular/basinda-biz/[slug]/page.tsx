@@ -4,7 +4,13 @@ import { CaretLeft, FileText } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getPressPostBySlug, getPressPosts } from "@/lib/content";
+import {
+  buildArticleJsonLd,
+  buildBreadcrumbJsonLd,
+  pageMetadata,
+} from "@/lib/seo";
 
 type PressDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -21,12 +27,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPressPostBySlug(slug);
   if (!post) {
-    return { title: "Yazı bulunamadı | Özel İzdüşümü Anaokulu" };
+    return { title: "Yazı bulunamadı" };
   }
-  return {
-    title: `${post.title} | Basında Biz`,
-    description: post.summary,
-  };
+  return pageMetadata({
+    title: `${post.title} - Niğde Anaokulu Basında Biz`,
+    description: `${post.summary} Niğde İzdüşümü Anaokulu basın haberi.`,
+    path: `/duyurular/basinda-biz/${slug}`,
+  });
 }
 
 function formatDate(date: Date | string) {
@@ -48,8 +55,28 @@ export default async function PressDetailPage({ params }: PressDetailPageProps) 
     notFound();
   }
 
+  const datePublished =
+    post.date instanceof Date
+      ? post.date.toISOString()
+      : new Date().toISOString();
+
   return (
     <section className="page-section bg-white">
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Ana Sayfa", path: "/" },
+            { name: "Duyurular", path: "/duyurular" },
+            { name: post.title, path: `/duyurular/basinda-biz/${slug}` },
+          ]),
+          buildArticleJsonLd({
+            title: post.title,
+            description: post.summary,
+            path: `/duyurular/basinda-biz/${slug}`,
+            datePublished,
+          }),
+        ]}
+      />
       <Container>
         <FadeIn className="mx-auto max-w-3xl">
           <Link

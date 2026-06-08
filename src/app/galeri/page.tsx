@@ -8,21 +8,32 @@ import {
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import GalleryGrid from "@/components/GalleryGrid";
+import JsonLd from "@/components/seo/JsonLd";
 import { getGalleryItems } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
-export const metadata = {
-  title: "Galeri | Özel İzdüşümü Anaokulu",
-  description: "Etkinliklerden ve günlük yaşamdan kareler.",
-};
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu Galeri",
+  description:
+    "Niğde İzdüşümü Anaokulu galeri: etkinlikler, sınıf içi çalışmalar ve okul yaşamından fotoğraflar.",
+  path: "/galeri",
+  keywords: ["Niğde anaokulu fotoğrafları", "Niğde okul öncesi etkinlikler"],
+});
 
 export default async function GalleryPage() {
   const items = await getGalleryItems();
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Galeri", path: "/galeri" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

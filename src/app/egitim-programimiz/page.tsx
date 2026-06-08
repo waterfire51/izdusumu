@@ -6,7 +6,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getEducationProgramSections } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 
@@ -54,11 +56,17 @@ function ContentParagraphs({
   );
 }
 
-export const metadata = {
-  title: "Eğitim Programımız | Özel İzdüşümü Anaokulu",
+export const metadata = pageMetadata({
+  title: "Niğde Çift Taraflı Okul Öncesi Eğitim Programı",
   description:
-    "Çift kanatlı eğitim anlayışımız, branş derslerimiz ve İnşa Erken Çocukluk Programı yaklaşımımız.",
-};
+    "Niğde çift taraflı eğitim ve okul öncesi eğitim programımız: branş dersleri, oyun temelli öğrenme ve İnşa Erken Çocukluk Programı ile Niğde anaokulu standartlarında kaliteli eğitim.",
+  path: "/egitim-programimiz",
+  keywords: [
+    "Niğde çift taraflı eğitim",
+    "Niğde okul öncesi eğitim programı",
+    "Niğde çift kanatlı eğitim",
+  ],
+});
 
 export default async function EducationProgramPage() {
   const sections = await getEducationProgramSections();
@@ -71,6 +79,12 @@ export default async function EducationProgramPage() {
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Eğitim Programı", path: "/egitim-programimiz" },
+        ])}
+      />
       <section
         className="relative overflow-hidden py-14 sm:py-18"
         style={{ backgroundColor: PURPLE }}

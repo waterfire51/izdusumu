@@ -7,6 +7,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
+import { getSiteSettings } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -15,14 +18,38 @@ const GREEN = "#22c55e";
 const inputClass =
   "mt-2 w-full rounded-xl border-2 border-slate-200 bg-white px-4 py-2.5 text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-black";
 
-export const metadata = {
-  title: "İletişim | Özel İzdüşümü Anaokulu",
-  description: "İletişim formu ve görüşme talebi.",
-};
+const DEFAULT_MAP_EMBED =
+  "https://maps.google.com/maps?q=37.95495419638933,34.67797850001159&t=&z=17&ie=UTF8&iwloc=&output=embed";
 
-export default function ContactPage() {
+function phoneTelHref(phone: string) {
+  const digits = phone.replace(/\D/g, "");
+  return digits ? `tel:+${digits}` : `tel:${phone}`;
+}
+
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu İletişim ve Kayıt",
+  description:
+    "Niğde anaokulu İzdüşümü iletişim: kayıt, görüşme talebi ve adres bilgileri. Niğde okul öncesi eğitim için hemen ulaşın.",
+  path: "/iletisim",
+  keywords: [
+    "Niğde anaokulu iletişim",
+    "Niğde anaokulu kayıt",
+    "Niğde anaokulu adres",
+  ],
+});
+
+export default async function ContactPage() {
+  const settings = await getSiteSettings();
+  const mapSrc = settings.mapEmbedUrl ?? DEFAULT_MAP_EMBED;
+
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "İletişim", path: "/iletisim" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{
@@ -52,7 +79,7 @@ export default function ContactPage() {
               formu doldurun ya da doğrudan arayın.
             </p>
             <a
-              href="tel:+905525310051"
+              href={phoneTelHref(settings.phone)}
               className="mt-8 inline-flex items-center justify-center gap-2 rounded-full border-4 border-black px-8 py-3.5 font-sans text-sm font-bold text-slate-900 shadow-[4px_4px_0_#0f172a] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
               style={{ backgroundColor: YELLOW }}
             >
@@ -236,20 +263,19 @@ export default function ContactPage() {
             {[
               {
                 title: "Adres",
-                description:
-                  "Selçuk Mahallesi, Sabancı Bulvarı Caddesi No: 40/1, Niğde",
+                description: settings.address,
                 color: "#6366f1",
               },
               {
                 title: "Telefon",
-                description: "+90 552 531 00 51",
-                href: "tel:+905525310051",
+                description: settings.phone,
+                href: phoneTelHref(settings.phone),
                 color: "#f97316",
               },
               {
                 title: "E-posta",
-                description: "iletisim@izdusumuanaokulu.com",
-                href: "mailto:iletisim@izdusumuanaokulu.com",
+                description: settings.email,
+                href: `mailto:${settings.email}`,
                 color: "#A855F7",
               },
             ].map((item, i) => (
@@ -281,7 +307,7 @@ export default function ContactPage() {
           <FadeIn className="mt-10 overflow-hidden rounded-2xl border-2 border-black shadow-[6px_6px_0_#0f172a]">
             <iframe
               title="İzdüşümü Anaokulu harita"
-              src="https://maps.google.com/maps?q=37.95495419638933,34.67797850001159&t=&z=17&ie=UTF8&iwloc=&output=embed"
+              src={mapSrc}
               className="h-56 w-full sm:h-72"
               loading="lazy"
             />

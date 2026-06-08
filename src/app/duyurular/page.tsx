@@ -20,14 +20,19 @@ import {
   getMealMenus,
   getPressPosts,
 } from "@/lib/content";
+import JsonLd from "@/components/seo/JsonLd";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
-export const metadata = {
-  title: "Duyurular | Özel İzdüşümü Anaokulu",
-  description: "Etkinlikler, özel günler, eğitim yazıları ve veli özeti.",
-};
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu Duyurular ve Blog",
+  description:
+    "Niğde anaokulu duyuruları, etkinlikler, yemek menüsü, eğitim yazıları ve basında biz haberleri.",
+  path: "/duyurular",
+  keywords: ["Niğde anaokulu duyurular", "Niğde okul öncesi blog"],
+});
 
 export default async function AnnouncementsPage() {
   const [announcements, meals, events, blogPosts, pressItems] = await Promise.all([
@@ -40,6 +45,12 @@ export default async function AnnouncementsPage() {
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Duyurular", path: "/duyurular" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

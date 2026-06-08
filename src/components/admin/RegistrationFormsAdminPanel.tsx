@@ -30,6 +30,7 @@ import {
   REGISTRATION_FIELD_TEMPLATES,
   type RegistrationFieldConfig,
 } from "@/lib/registration-form-fields";
+import { absoluteUrl } from "@/lib/site-url";
 
 type FormRow = {
   id: string;
@@ -161,7 +162,7 @@ function FormModal({
     }
 
     if (state.mode === "create" && result.slug) {
-      const url = `${window.location.origin}/kayit/${result.slug}`;
+      const url = absoluteUrl(`/kayit/${result.slug}`);
       setCreatedLink(url);
       onSaved(result.slug);
     } else {
@@ -333,7 +334,7 @@ function CopyLinkButton({ slug }: { slug: string }) {
   const [copied, setCopied] = useState(false);
 
   async function copy() {
-    const url = `${window.location.origin}/kayit/${slug}`;
+    const url = absoluteUrl(`/kayit/${slug}`);
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -448,8 +449,9 @@ export default function RegistrationFormsAdminPanel({
                   <div className="flex flex-wrap items-center gap-2">
                     <CopyLinkButton slug={form.slug} />
                     <Link
-                      href={`/kayit/${form.slug}`}
+                      href={absoluteUrl(`/kayit/${form.slug}`)}
                       target="_blank"
+                      rel="noopener noreferrer"
                       className="flex items-center gap-1.5 rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-600 hover:border-[#3c50e0] hover:text-[#3c50e0]"
                     >
                       <Eye size={14} />

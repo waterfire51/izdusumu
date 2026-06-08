@@ -6,7 +6,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getRooms } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
@@ -20,16 +22,25 @@ const roomAccent = [
   "#0ea5e9",
 ] as const;
 
-export const metadata = {
-  title: "Dersliklerimiz | Özel İzdüşümü Anaokulu",
-  description: "Okulumuzdaki tüm derslik ve atölye alanlarını keşfedin.",
-};
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu Sınıfları ve Derslikler",
+  description:
+    "Niğde İzdüşümü Anaokulu sınıfları ve derslikleri: 2-6 yaş gruplarına özel güvenli, modern ve çocuk dostu eğitim alanları.",
+  path: "/dersliklerimiz",
+  keywords: ["Niğde anaokulu sınıfları", "Niğde okul öncesi sınıflar"],
+});
 
 export default async function RoomsPage() {
   const rooms = await getRooms();
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Dersliklerimiz", path: "/dersliklerimiz" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

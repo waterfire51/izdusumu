@@ -8,7 +8,9 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getRoomBySlug, getRooms } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
@@ -27,10 +29,12 @@ export async function generateMetadata({ params }: PageProps) {
   const room = await getRoomBySlug(slug);
   if (!room) return {};
 
-  return {
-    title: `${room.name} | Özel İzdüşümü Anaokulu`,
-    description: room.description,
-  };
+  return pageMetadata({
+    title: `${room.name} - Niğde Anaokulu Sınıfı`,
+    description: `${room.description} Niğde İzdüşümü Anaokulu ${room.name} sınıfı ve okul öncesi eğitim alanı.`,
+    path: `/dersliklerimiz/${slug}`,
+    keywords: [`Niğde anaokulu ${room.name}`, "Niğde okul öncesi eğitim"],
+  });
 }
 
 export default async function RoomDetailPage({ params }: PageProps) {
@@ -42,6 +46,13 @@ export default async function RoomDetailPage({ params }: PageProps) {
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Dersliklerimiz", path: "/dersliklerimiz" },
+          { name: room.name, path: `/dersliklerimiz/${slug}` },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

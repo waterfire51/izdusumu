@@ -3,21 +3,32 @@ import Link from "next/link";
 import { Lightbulb, UsersThree } from "@phosphor-icons/react/dist/ssr";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getAboutPage } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
 
-export const metadata = {
-  title: "Kurumsal | Özel İzdüşümü Anaokulu",
-  description: "Hakkımızda, misyonumuz, vizyonumuz ve eğitim anlayışımız.",
-};
+export const metadata = pageMetadata({
+  title: "Kurumsal - Niğde Anaokulu Hakkında",
+  description:
+    "Niğde anaokulu İzdüşümü hakkında kurumsal bilgiler: misyon, vizyon, eğitim anlayışı ve Niğde okul öncesi eğitim yaklaşımımız.",
+  path: "/kurumsal",
+  keywords: ["Niğde anaokulu hakkında", "Niğde özel anaokulu"],
+});
 
 export default async function CorporatePage() {
   const page = await getAboutPage();
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Kurumsal", path: "/kurumsal" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

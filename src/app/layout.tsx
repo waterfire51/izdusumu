@@ -5,7 +5,10 @@ import Header2 from "@/components/Header2";
 import Footer2 from "@/components/Footer2";
 import WhatsAppButton from "@/components/WhatsAppButton";
 import VisitTracker from "@/components/VisitTracker";
+import GlobalSeoJsonLd from "@/components/seo/GlobalSeoJsonLd";
 import { getSiteSettings } from "@/lib/content";
+import { defaultSiteMetadata } from "@/lib/seo";
+import { SITE_URL } from "@/lib/site-url";
 import { headers } from "next/headers";
 
 const inter = Inter({
@@ -26,16 +29,12 @@ const quicksand = Quicksand({
 });
 
 export const metadata: Metadata = {
-  title: "Özel İzdüşümü Anaokulu",
-  description:
-    "Modern, güven veren ve çocuk dostu bir okul öncesi eğitim deneyimi.",
-  metadataBase: new URL("https://izdusumuanaokulu.com"),
-  openGraph: {
-    title: "Özel İzdüşümü Anaokulu",
-    description:
-      "Çocukların keşfettiği, velilerin güvenle tercih ettiği anaokulu.",
-    type: "website",
-    locale: "tr_TR",
+  ...defaultSiteMetadata(),
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default:
+      "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Taraflı Okul Öncesi Eğitim",
+    template: "%s | Özel İzdüşümü Anaokulu",
   },
   icons: {
     icon: [{ url: "/favicon.png", type: "image/png" }],
@@ -61,6 +60,7 @@ export default async function RootLayout({
         suppressHydrationWarning
         className={isAdmin ? "min-h-full bg-[#f1f5f9]" : "min-h-full bg-white text-slate-900"}
       >
+        {!isAdmin ? <GlobalSeoJsonLd settings={settings} /> : null}
         {!isAdmin ? <VisitTracker /> : null}
         {!isAdmin ? <Header2 /> : null}
         <main className="flex-1">{children}</main>

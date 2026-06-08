@@ -6,15 +6,19 @@ import {
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import HomeTestimonials from "@/components/HomeTestimonials";
+import JsonLd from "@/components/seo/JsonLd";
 import { getTestimonials } from "@/lib/content";
+import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 
-export const metadata = {
-  title: "Veli Yorumlarımız | Özel İzdüşümü Anaokulu",
+export const metadata = pageMetadata({
+  title: "Niğde Anaokulu Veli Yorumları",
   description:
-    "Velilerimizin yazılı ve videolu deneyimlerini bir arada inceleyin.",
-};
+    "Niğde anaokulu İzdüşümü veli yorumları: yazılı ve videolu geri bildirimlerle Niğde okul öncesi eğitim deneyimimizi keşfedin.",
+  path: "/veli-yorumlarimiz",
+  keywords: ["Niğde anaokulu yorumları", "Niğde anaokulu veli görüşleri"],
+});
 
 export default async function ParentTestimonialsPage() {
   const [textItems, videoItems] = await Promise.all([
@@ -24,6 +28,12 @@ export default async function ParentTestimonialsPage() {
 
   return (
     <div>
+      <JsonLd
+        data={buildBreadcrumbJsonLd([
+          { name: "Ana Sayfa", path: "/" },
+          { name: "Veli Yorumları", path: "/veli-yorumlarimiz" },
+        ])}
+      />
       <section
         className="relative overflow-x-hidden pb-0"
         style={{

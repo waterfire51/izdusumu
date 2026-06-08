@@ -1,22 +1,89 @@
 import type { MetadataRoute } from "next";
-import { rooms } from "@/lib/data";
+import { getBlogPosts, getPressPosts, getRooms } from "@/lib/content";
+import { SITE_URL } from "@/lib/site-url";
 
-export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://izdusumuanaokulu.com";
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const baseUrl = SITE_URL;
+  const now = new Date();
 
-  return [
-    { url: baseUrl, lastModified: new Date() },
-    { url: `${baseUrl}/dersliklerimiz`, lastModified: new Date() },
-    { url: `${baseUrl}/kurumsal`, lastModified: new Date() },
-    { url: `${baseUrl}/ogretmen-kadromuz`, lastModified: new Date() },
-    { url: `${baseUrl}/egitim-programimiz`, lastModified: new Date() },
-    { url: `${baseUrl}/veli-yorumlarimiz`, lastModified: new Date() },
-    { url: `${baseUrl}/galeri`, lastModified: new Date() },
-    { url: `${baseUrl}/duyurular`, lastModified: new Date() },
-    { url: `${baseUrl}/iletisim`, lastModified: new Date() },
-    ...rooms.map((room) => ({
-      url: `${baseUrl}/dersliklerimiz/${room.slug}`,
-      lastModified: new Date(),
-    })),
+  const [rooms, blogPosts, pressPosts] = await Promise.all([
+    getRooms(),
+    getBlogPosts(),
+    getPressPosts(),
+  ]);
+
+  const staticPages: MetadataRoute.Sitemap = [
+    { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },
+    {
+      url: `${baseUrl}/kurumsal`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/egitim-programimiz`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
+    {
+      url: `${baseUrl}/dersliklerimiz`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.9,
+    },
+    {
+      url: `${baseUrl}/ogretmen-kadromuz`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: `${baseUrl}/veli-yorumlarimiz`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/galeri`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.75,
+    },
+    {
+      url: `${baseUrl}/duyurular`,
+      lastModified: now,
+      changeFrequency: "weekly",
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/iletisim`,
+      lastModified: now,
+      changeFrequency: "monthly",
+      priority: 0.95,
+    },
   ];
+
+  const roomPages: MetadataRoute.Sitemap = rooms.map((room) => ({
+    url: `${baseUrl}/dersliklerimiz/${room.slug}`,
+    lastModified: now,
+    changeFrequency: "monthly" as const,
+    priority: 0.8,
+  }));
+
+  const blogPages: MetadataRoute.Sitemap = blogPosts.map((post) => ({
+    url: `${baseUrl}/duyurular/blog/${post.slug}`,
+    lastModified: post.date instanceof Date ? post.date : now,
+    changeFrequency: "monthly" as const,
+    priority: 0.7,
+  }));
+
+  const pressPages: MetadataRoute.Sitemap = pressPosts.map((post) => ({
+    url: `${baseUrl}/duyurular/basinda-biz/${post.slug}`,
+    lastModified: post.date instanceof Date ? post.date : now,
+    changeFrequency: "monthly" as const,
+    priority: 0.65,
+  }));
+
+  return [...staticPages, ...roomPages, ...blogPages, ...pressPages];
 }

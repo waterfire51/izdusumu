@@ -5,7 +5,13 @@ import { CaretLeft, NewspaperClipping } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
+import JsonLd from "@/components/seo/JsonLd";
 import { getBlogPostBySlug, getBlogPosts } from "@/lib/content";
+import {
+  buildArticleJsonLd,
+  buildBreadcrumbJsonLd,
+  pageMetadata,
+} from "@/lib/seo";
 
 type BlogDetailPageProps = {
   params: Promise<{ slug: string }>;
@@ -22,12 +28,14 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getBlogPostBySlug(slug);
   if (!post) {
-    return { title: "Yazı bulunamadı | Özel İzdüşümü Anaokulu" };
+    return { title: "Yazı bulunamadı" };
   }
-  return {
-    title: `${post.title} | Duyurular`,
-    description: post.summary,
-  };
+  return pageMetadata({
+    title: `${post.title} - Niğde Okul Öncesi Eğitim Blog`,
+    description: `${post.summary} Niğde anaokulu eğitim yazıları.`,
+    path: `/duyurular/blog/${slug}`,
+    ogImage: "imageUrl" in post && post.imageUrl ? post.imageUrl : undefined,
+  });
 }
 
 function formatDate(date: Date | string) {
@@ -49,8 +57,29 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     notFound();
   }
 
+  const datePublished =
+    post.date instanceof Date
+      ? post.date.toISOString()
+      : new Date().toISOString();
+
   return (
     <section className="page-section bg-white">
+      <JsonLd
+        data={[
+          buildBreadcrumbJsonLd([
+            { name: "Ana Sayfa", path: "/" },
+            { name: "Duyurular", path: "/duyurular" },
+            { name: post.title, path: `/duyurular/blog/${slug}` },
+          ]),
+          buildArticleJsonLd({
+            title: post.title,
+            description: post.summary,
+            path: `/duyurular/blog/${slug}`,
+            datePublished,
+            imageUrl: "imageUrl" in post ? post.imageUrl : null,
+          }),
+        ]}
+      />
       <Container>
         <FadeIn className="mx-auto max-w-3xl">
           <Link

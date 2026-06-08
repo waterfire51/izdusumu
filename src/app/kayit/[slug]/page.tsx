@@ -5,6 +5,7 @@ import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import RegistrationPublicForm from "@/components/RegistrationPublicForm";
 import { getRegistrationFormBySlug } from "@/lib/content";
+import { pageMetadata } from "@/lib/seo";
 
 const PURPLE = "#8A4FFF";
 
@@ -16,10 +17,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const form = await getRegistrationFormBySlug(slug);
   if (!form) return { title: "Form Bulunamadı" };
-  return {
-    title: `${form.title} | Özel İzdüşümü Anaokulu`,
-    description: form.description || "Kayıt formu",
-  };
+  return pageMetadata({
+    title: form.title,
+    description: form.description || "Niğde anaokulu kayıt formu",
+    path: `/kayit/${slug}`,
+    noIndex: true,
+  });
 }
 
 export default async function RegistrationFormPage({
