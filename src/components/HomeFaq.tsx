@@ -19,7 +19,7 @@ export default function HomeFaq() {
             Niğde anaokulu hakkında merak edilenler
           </h2>
           <p className="font-sans mt-3 text-base text-slate-600">
-            Niğde okul öncesi eğitim ve çift taraflı eğitim modelimiz hakkında
+            Niğde okul öncesi eğitim ve çift kanatlı eğitim modelimiz hakkında
             velilerimizin en çok sorduğu konular.
           </p>
         </FadeIn>
@@ -58,7 +58,7 @@ export default function HomeFaq() {
             <CaretRight size={18} weight="bold" />
           </Link>
           <p className="font-sans mt-4 text-sm text-slate-500">
-            Özel İzdüşümü Anaokulu · Niğde çift taraflı okul öncesi eğitim
+            Özel İzdüşümü Anaokulu · Niğde çift kanatlı okul öncesi eğitim
           </p>
         </FadeIn>
       </Container>

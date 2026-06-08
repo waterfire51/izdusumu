@@ -57,14 +57,13 @@ function ContentParagraphs({
 }
 
 export const metadata = pageMetadata({
-  title: "Niğde Çift Taraflı Okul Öncesi Eğitim Programı",
+  title: "Niğde Çift Kanatlı Okul Öncesi Eğitim Programı",
   description:
-    "Niğde çift taraflı eğitim ve okul öncesi eğitim programımız: branş dersleri, oyun temelli öğrenme ve İnşa Erken Çocukluk Programı ile Niğde anaokulu standartlarında kaliteli eğitim.",
+    "Niğde çift kanatlı eğitim ve okul öncesi eğitim programımız: branş dersleri, oyun temelli öğrenme ve İnşa Erken Çocukluk Programı ile Niğde anaokulu standartlarında kaliteli eğitim.",
   path: "/egitim-programimiz",
   keywords: [
-    "Niğde çift taraflı eğitim",
-    "Niğde okul öncesi eğitim programı",
     "Niğde çift kanatlı eğitim",
+    "Niğde okul öncesi eğitim programı",
   ],
 });
 

@@ -21,7 +21,6 @@ export const SEO = {
   keywords: [
     "Niğde anaokulu",
     "Niğde okul öncesi eğitim",
-    "Niğde çift taraflı eğitim",
     "Niğde çift kanatlı eğitim",
     "Niğde özel anaokulu",
     "Niğde kreş",
@@ -31,7 +30,7 @@ export const SEO = {
     "özel anaokulu Niğde",
   ],
   defaultDescription:
-    "Niğde'nin güvenilir özel anaokulu İzdüşümü; çift taraflı okul öncesi eğitim, deneyimli öğretmen kadrosu ve güvenli eğitim ortamıyla 2-6 yaş çocuklarınız için yanınızda.",
+    "Niğde'nin güvenilir özel anaokulu İzdüşümü; çift kanatlı okul öncesi eğitim, deneyimli öğretmen kadrosu ve güvenli eğitim ortamıyla 2-6 yaş çocuklarınız için yanınızda.",
   defaultOgImage: "/logo-footer.png",
 } as const;
 
@@ -39,12 +38,12 @@ export const HOME_FAQ = [
   {
     question: "Niğde'de özel anaokulu arayan aileler neden İzdüşümü'yü tercih ediyor?",
     answer:
-      "Özel İzdüşümü Anaokulu, Niğde'de çift taraflı eğitim anlayışı, deneyimli öğretmen kadrosu, güvenli kampüs ortamı ve veli ile şeffaf iletişim modeliyle öne çıkar. 15 kişilik sınıflarla her çocuğa bireysel ilgi sunuyoruz.",
+      "Özel İzdüşümü Anaokulu, Niğde'de çift kanatlı eğitim anlayışı, deneyimli öğretmen kadrosu, güvenli kampüs ortamı ve veli ile şeffaf iletişim modeliyle öne çıkar. 15 kişilik sınıflarla her çocuğa bireysel ilgi sunuyoruz.",
   },
   {
-    question: "İzdüşümü Anaokulu'nda çift taraflı eğitim nasıl uygulanıyor?",
+    question: "İzdüşümü Anaokulu'nda çift kanatlı eğitim nasıl uygulanıyor?",
     answer:
-      "Niğde İzdüşümü Anaokulu'nda çift taraflı (çift kanatlı) eğitim; akademik gelişim ile sosyal-duygusal, sanat, hareket ve değerler eğitimini dengeli biçimde bir arada sunan program anlayışıdır. Oyun temelli öğrenme günlük rutinin merkezindedir.",
+      "Niğde İzdüşümü Anaokulu'nda çift kanatlı eğitim; akademik gelişim ile sosyal-duygusal, sanat, hareket ve değerler eğitimini dengeli biçimde bir arada sunan program anlayışıdır. Oyun temelli öğrenme günlük rutinin merkezindedir.",
   },
   {
     question: "Okulunuz hangi yaş gruplarına hizmet veriyor?",
@@ -86,7 +85,7 @@ type PageSeoOptions = {
 
 export function defaultSiteMetadata(): Metadata {
   return pageMetadata({
-    title: "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Taraflı Okul Öncesi Eğitim",
+    title: "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Kanatlı Okul Öncesi Eğitim",
     description: SEO.defaultDescription,
     path: "/",
     absoluteTitle: true,

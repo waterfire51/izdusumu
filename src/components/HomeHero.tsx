@@ -294,7 +294,7 @@ export default function HomeHero({ content }: { content?: HeroContent }) {
       <Container className="relative z-10 grid min-h-[min(88vh,820px)] items-end gap-8 pb-4 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-6 lg:pt-6">
         <FadeIn className="max-lg:pb-[min(48vh,380px)] space-y-6 pb-8 lg:pb-24">
           <p className="font-hero text-xs font-bold uppercase tracking-[0.22em] text-white/90 sm:text-sm">
-            Niğde Anaokulu · Çift Taraflı Okul Öncesi Eğitim
+            Niğde Anaokulu · Çift Kanatlı Okul Öncesi Eğitim
           </p>
           <h1 className="font-hero text-[2.1rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
             <span style={{ color: YELLOW }} className="font-bold">

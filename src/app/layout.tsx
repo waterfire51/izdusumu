@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
     default:
-      "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Taraflı Okul Öncesi Eğitim",
+      "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Kanatlı Okul Öncesi Eğitim",
     template: "%s | Özel İzdüşümü Anaokulu",
   },
   icons: {

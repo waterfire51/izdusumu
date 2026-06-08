@@ -18,15 +18,15 @@ import { buildFaqJsonLd, HOME_FAQ, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
   title:
-    "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Taraflı Okul Öncesi Eğitim",
+    "Niğde Anaokulu | Özel İzdüşümü Anaokulu - Çift Kanatlı Okul Öncesi Eğitim",
   description:
-    "Niğde anaokulu arayan aileler için İzdüşümü Anaokulu: çift taraflı okul öncesi eğitim, güvenli kampüs, deneyimli öğretmen kadrosu ve 2-6 yaş kayıt. Niğde okul öncesi eğitimde güvenilir adresiniz.",
+    "Niğde anaokulu arayan aileler için İzdüşümü Anaokulu: çift kanatlı okul öncesi eğitim, güvenli kampüs, deneyimli öğretmen kadrosu ve 2-6 yaş kayıt. Niğde okul öncesi eğitimde güvenilir adresiniz.",
   path: "/",
   absoluteTitle: true,
   keywords: [
     "Niğde anaokulu",
     "Niğde okul öncesi eğitim",
-    "Niğde çift taraflı eğitim",
+    "Niğde çift kanatlı eğitim",
   ],
 });
 
