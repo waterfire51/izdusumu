@@ -16,6 +16,7 @@ import {
   ClipboardText,
   GraduationCap,
   ImageSquare,
+  NewspaperClipping,
   Phone,
   SignOut,
   UsersThree,
@@ -33,6 +34,7 @@ const nav = [
   { href: "/admin/rooms", label: "Sınıflarımız", icon: Chalkboard },
   { href: "/admin/gallery", label: "Galeri", icon: ImageSquare },
   { href: "/admin/announcements", label: "Duyurular", icon: Megaphone },
+  { href: "/admin/blog", label: "Blog & Basın", icon: NewspaperClipping },
   { href: "/admin/forms", label: "Kayıt Formları", icon: ClipboardText },
   { href: "/admin/contact", label: "İletişim Bilgileri", icon: Phone },
 ];

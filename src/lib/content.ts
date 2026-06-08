@@ -213,6 +213,7 @@ export async function getBlogPosts() {
   return educationBlogPosts.map((p) => ({
     ...p,
     id: p.slug,
+    imageUrl: null as string | null,
     published: true,
     date: new Date(p.date),
     content: p.content,
@@ -220,13 +221,16 @@ export async function getBlogPosts() {
 }
 
 export async function getBlogPostBySlug(slug: string) {
-  const post = await prisma.blogPost.findUnique({ where: { slug } });
+  const post = await prisma.blogPost.findFirst({
+    where: { slug, published: true },
+  });
   if (post) return post;
   const staticPost = educationBlogPosts.find((p) => p.slug === slug);
   if (!staticPost) return null;
   return {
     ...staticPost,
     id: staticPost.slug,
+    imageUrl: null as string | null,
     published: true,
     date: new Date(staticPost.date),
     content: staticPost.content,
@@ -249,7 +253,9 @@ export async function getPressPosts() {
 }
 
 export async function getPressPostBySlug(slug: string) {
-  const post = await prisma.pressPost.findUnique({ where: { slug } });
+  const post = await prisma.pressPost.findFirst({
+    where: { slug, published: true },
+  });
   if (post) return post;
   const staticPost = pressPosts.find((p) => p.slug === slug);
   if (!staticPost) return null;

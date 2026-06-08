@@ -9,7 +9,7 @@ datasource db {
 
 model AdminUser {
   id        String   @id @default(cuid())
-  email     String   @unique
+  username  String   @unique
   password  String
   name      String
   createdAt DateTime @default(now())
@@ -178,6 +178,7 @@ model BlogPost {
   slug      String   @unique
   title     String
   summary   String   @db.Text
+  imageUrl  String?
   content   String[]
   date      DateTime
   published Boolean  @default(true)

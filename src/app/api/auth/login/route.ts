@@ -3,26 +3,28 @@ import { prisma } from "@/lib/prisma";
 import { createSession, verifyPassword } from "@/lib/auth";
 
 export async function POST(request: Request) {
-  const { email, password } = (await request.json()) as {
-    email?: string;
+  const { username, password } = (await request.json()) as {
+    username?: string;
     password?: string;
   };
 
-  if (!email || !password) {
+  if (!username || !password) {
     return NextResponse.json(
-      { error: "E-posta ve şifre gerekli" },
+      { error: "Kullanıcı adı ve şifre gerekli" },
       { status: 400 }
     );
   }
 
-  const user = await prisma.adminUser.findUnique({ where: { email } });
+  const user = await prisma.adminUser.findUnique({
+    where: { username: username.trim() },
+  });
   if (!user || !(await verifyPassword(password, user.password))) {
     return NextResponse.json(
-      { error: "Geçersiz e-posta veya şifre" },
+      { error: "Geçersiz kullanıcı adı veya şifre" },
       { status: 401 }
     );
   }
 
-  await createSession(user.id, user.email);
+  await createSession(user.id, user.username);
   return NextResponse.json({ ok: true });
 }

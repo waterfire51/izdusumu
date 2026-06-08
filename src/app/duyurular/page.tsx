@@ -168,8 +168,20 @@ export default async function AnnouncementsPage() {
                     <Link
                       key={post.slug}
                       href={`/duyurular/blog/${post.slug}`}
-                      className="block rounded-xl border-2 border-slate-200 p-4 transition hover:border-fuchsia-300 hover:bg-fuchsia-50/40"
+                      className="block overflow-hidden rounded-xl border-2 border-slate-200 transition hover:border-fuchsia-300 hover:bg-fuchsia-50/40"
                     >
+                      {"imageUrl" in post && post.imageUrl ? (
+                        <div className="relative aspect-[16/9] w-full border-b-2 border-slate-200">
+                          <NextImage
+                            src={post.imageUrl}
+                            alt={post.title}
+                            fill
+                            className="object-cover"
+                            sizes="(max-width: 1024px) 100vw, 600px"
+                          />
+                        </div>
+                      ) : null}
+                      <div className="p-4">
                       <p className="font-sans text-xs font-bold uppercase tracking-wide text-fuchsia-700">
                         {post.date instanceof Date
                           ? post.date.toLocaleDateString("tr-TR", {
@@ -185,6 +197,7 @@ export default async function AnnouncementsPage() {
                       <p className="font-display mt-2 text-sm leading-relaxed text-slate-700">
                         {post.summary}
                       </p>
+                      </div>
                     </Link>
                   ))}
                 </div>

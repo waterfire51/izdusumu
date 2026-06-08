@@ -4,21 +4,22 @@ import { CaretLeft, FileText } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
-import { pressPosts } from "@/lib/press";
+import { getPressPostBySlug, getPressPosts } from "@/lib/content";
 
 type PressDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return pressPosts.map((post) => ({ slug: post.slug }));
+  const posts = await getPressPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: PressDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = pressPosts.find((item) => item.slug === slug);
+  const post = await getPressPostBySlug(slug);
   if (!post) {
     return { title: "Yazı bulunamadı | Özel İzdüşümü Anaokulu" };
   }
@@ -28,9 +29,20 @@ export async function generateMetadata({
   };
 }
 
+function formatDate(date: Date | string) {
+  if (date instanceof Date) {
+    return date.toLocaleDateString("tr-TR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+  return date;
+}
+
 export default async function PressDetailPage({ params }: PressDetailPageProps) {
   const { slug } = await params;
-  const post = pressPosts.find((item) => item.slug === slug);
+  const post = await getPressPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -54,7 +66,7 @@ export default async function PressDetailPage({ params }: PressDetailPageProps) 
               Basında Biz
             </div>
             <p className="mt-4 font-sans text-xs font-bold uppercase tracking-wide text-slate-500">
-              {post.date} - {post.source}
+              {formatDate(post.date)} - {post.source}
             </p>
             <h1 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
               {post.title}
@@ -79,4 +91,3 @@ export default async function PressDetailPage({ params }: PressDetailPageProps) 
     </section>
   );
 }
-

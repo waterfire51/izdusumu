@@ -60,14 +60,34 @@ const PRESS_DATES: Record<string, string> = {
 };
 
 async function main() {
-  const email = process.env.ADMIN_EMAIL ?? "admin@izdusumuanaokulu.com";
-  const password = process.env.ADMIN_PASSWORD ?? "Izdusumu2026!";
-  const hash = await bcrypt.hash(password, 12);
+  const adminUsers = [
+    {
+      username: process.env.ADMIN_USERNAME ?? "izdusumu",
+      password: process.env.ADMIN_PASSWORD ?? "izdusumu201951",
+      name: "Yönetici",
+    },
+    {
+      username: process.env.CREATOR_USERNAME ?? "creator",
+      password: process.env.CREATOR_PASSWORD ?? "kayseri38",
+      name: "Yazılımcı",
+    },
+  ];
 
-  await prisma.adminUser.upsert({
-    where: { email },
-    update: {},
-    create: { email, password: hash, name: "Yönetici" },
+  for (const user of adminUsers) {
+    const hash = await bcrypt.hash(user.password, 12);
+    await prisma.adminUser.upsert({
+      where: { username: user.username },
+      update: { password: hash, name: user.name },
+      create: {
+        username: user.username,
+        password: hash,
+        name: user.name,
+      },
+    });
+  }
+
+  await prisma.adminUser.deleteMany({
+    where: { username: { notIn: adminUsers.map((u) => u.username) } },
   });
 
   await prisma.siteSettings.upsert({
@@ -325,7 +345,10 @@ async function main() {
   });
 
   console.log("✓ Tüm site verileri veritabanına senkronize edildi.");
-  console.log("  Admin:", email);
+  console.log(
+    "  Giriş hesapları:",
+    adminUsers.map((u) => u.username).join(", ")
+  );
 }
 
 main()

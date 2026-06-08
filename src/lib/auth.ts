@@ -19,8 +19,8 @@ export async function verifyPassword(password: string, hash: string) {
   return bcrypt.compare(password, hash);
 }
 
-export async function createSession(userId: string, email: string) {
-  const token = await new SignJWT({ userId, email })
+export async function createSession(userId: string, username: string) {
+  const token = await new SignJWT({ userId, username })
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("7d")
@@ -51,7 +51,7 @@ export async function getSession() {
     const userId = payload.userId as string;
     const user = await prisma.adminUser.findUnique({ where: { id: userId } });
     if (!user) return null;
-    return { id: user.id, email: user.email, name: user.name };
+    return { id: user.id, username: user.username, name: user.name };
   } catch {
     return null;
   }

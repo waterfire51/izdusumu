@@ -568,6 +568,155 @@ export async function submitRegistrationForm(formData: FormData) {
   return { ok: true };
 }
 
+async function uniqueBlogSlug(base: string, excludeId?: string) {
+  let attempt = slugify(base) || "yazi";
+  let n = 1;
+  const slug = attempt;
+  while (true) {
+    const existing = await prisma.blogPost.findUnique({ where: { slug: attempt } });
+    if (!existing || existing.id === excludeId) return attempt;
+    n += 1;
+    attempt = `${slug}-${n}`;
+  }
+}
+
+async function uniquePressSlug(base: string, excludeId?: string) {
+  let attempt = slugify(base) || "haber";
+  let n = 1;
+  const slug = attempt;
+  while (true) {
+    const existing = await prisma.pressPost.findUnique({ where: { slug: attempt } });
+    if (!existing || existing.id === excludeId) return attempt;
+    n += 1;
+    attempt = `${slug}-${n}`;
+  }
+}
+
+function parseParagraphs(raw: string) {
+  return raw
+    .split("\n")
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
+export async function saveBlogPost(formData: FormData) {
+  const g = await guard();
+  if (!g.ok) return g;
+
+  const id = (formData.get("id") as string) || null;
+  const title = (formData.get("title") as string)?.trim();
+  const summary = (formData.get("summary") as string)?.trim();
+  const dateStr = formData.get("date") as string;
+  const content = parseParagraphs((formData.get("content") as string) ?? "");
+  const published = formData.get("published") === "on";
+  const imageUrl = ((formData.get("imageUrl") as string) ?? "").trim() || null;
+
+  if (!title || !summary || !dateStr) {
+    return { ok: false, error: "Başlık, özet ve tarih gerekli" };
+  }
+  if (content.length === 0) {
+    return { ok: false, error: "En az bir paragraf girin" };
+  }
+
+  const date = new Date(dateStr);
+
+  if (id) {
+    const existing = await prisma.blogPost.findUnique({ where: { id } });
+    if (!existing) return { ok: false, error: "Yazı bulunamadı" };
+
+    await prisma.blogPost.update({
+      where: { id },
+      data: { title, summary, imageUrl, content, date, published },
+    });
+    revalidatePath("/duyurular");
+    revalidatePath(`/duyurular/blog/${existing.slug}`);
+    revalidatePath("/admin/blog");
+    return { ok: true };
+  }
+
+  const slug = await uniqueBlogSlug(title);
+  await prisma.blogPost.create({
+    data: { slug, title, summary, imageUrl, content, date, published },
+  });
+
+  revalidatePath("/duyurular");
+  revalidatePath(`/duyurular/blog/${slug}`);
+  revalidatePath("/admin/blog");
+  return { ok: true };
+}
+
+export async function deleteBlogPost(id: string) {
+  const g = await guard();
+  if (!g.ok) return g;
+
+  const post = await prisma.blogPost.findUnique({ where: { id } });
+  await prisma.blogPost.delete({ where: { id } });
+
+  revalidatePath("/duyurular");
+  revalidatePath("/admin/blog");
+  if (post) revalidatePath(`/duyurular/blog/${post.slug}`);
+  return { ok: true };
+}
+
+export async function savePressPost(formData: FormData) {
+  const g = await guard();
+  if (!g.ok) return g;
+
+  const id = (formData.get("id") as string) || null;
+  const title = (formData.get("title") as string)?.trim();
+  const summary = (formData.get("summary") as string)?.trim();
+  const source = (formData.get("source") as string)?.trim();
+  const dateStr = formData.get("date") as string;
+  const content = parseParagraphs((formData.get("content") as string) ?? "");
+  const published = formData.get("published") === "on";
+
+  if (!title || !summary || !source || !dateStr) {
+    return { ok: false, error: "Başlık, özet, kaynak ve tarih gerekli" };
+  }
+  if (content.length === 0) {
+    return { ok: false, error: "En az bir paragraf girin" };
+  }
+
+  const date = new Date(dateStr);
+
+  if (id) {
+    const existing = await prisma.pressPost.findUnique({ where: { id } });
+    if (!existing) return { ok: false, error: "Haber bulunamadı" };
+
+    await prisma.pressPost.update({
+      where: { id },
+      data: { title, summary, source, content, date, published },
+    });
+    revalidatePath("/duyurular");
+    revalidatePath(`/duyurular/basinda-biz/${existing.slug}`);
+    revalidatePath("/admin/blog");
+    return { ok: true };
+  }
+
+  const slug = await uniquePressSlug(title);
+  await prisma.pressPost.create({
+    data: { slug, title, summary, source, content, date, published },
+  });
+
+  revalidatePath("/duyurular");
+  revalidatePath(`/duyurular/basinda-biz/${slug}`);
+  revalidatePath("/admin/blog");
+  return { ok: true };
+}
+
+export async function deletePressPost(id: string) {
+  const g = await guard();
+  if (!g.ok) return g;
+
+  const post = await prisma.pressPost.findUnique({ where: { id } });
+  await prisma.pressPost.delete({ where: { id } });
+
+  revalidatePath("/duyurular");
+  revalidatePath("/admin/blog");
+  if (post) revalidatePath(`/duyurular/basinda-biz/${post.slug}`);
+  return { ok: true };
+}
+
 export async function saveContactSettings(formData: FormData) {
   const g = await guard();
   if (!g.ok) return g;

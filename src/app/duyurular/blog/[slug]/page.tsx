@@ -1,24 +1,26 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CaretLeft, NewspaperClipping } from "@phosphor-icons/react/dist/ssr";
 import type { Metadata } from "next";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
-import { educationBlogPosts } from "@/lib/blog";
+import { getBlogPostBySlug, getBlogPosts } from "@/lib/content";
 
 type BlogDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
 export async function generateStaticParams() {
-  return educationBlogPosts.map((post) => ({ slug: post.slug }));
+  const posts = await getBlogPosts();
+  return posts.map((post) => ({ slug: post.slug }));
 }
 
 export async function generateMetadata({
   params,
 }: BlogDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = educationBlogPosts.find((item) => item.slug === slug);
+  const post = await getBlogPostBySlug(slug);
   if (!post) {
     return { title: "Yazı bulunamadı | Özel İzdüşümü Anaokulu" };
   }
@@ -28,9 +30,20 @@ export async function generateMetadata({
   };
 }
 
+function formatDate(date: Date | string) {
+  if (date instanceof Date) {
+    return date.toLocaleDateString("tr-TR", {
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
+  }
+  return date;
+}
+
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
-  const post = educationBlogPosts.find((item) => item.slug === slug);
+  const post = await getBlogPostBySlug(slug);
 
   if (!post) {
     notFound();
@@ -54,7 +67,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
               Eğitim Yazıları
             </div>
             <p className="mt-4 font-sans text-xs font-bold uppercase tracking-wide text-slate-500">
-              {post.date}
+              {formatDate(post.date)}
             </p>
             <h1 className="mt-2 font-display text-3xl font-bold text-slate-900 sm:text-4xl">
               {post.title}
@@ -62,6 +75,19 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
             <p className="font-display mt-4 text-base leading-relaxed text-slate-700">
               {post.summary}
             </p>
+
+            {"imageUrl" in post && post.imageUrl ? (
+              <div className="relative mt-6 aspect-[16/9] overflow-hidden rounded-xl border-2 border-black">
+                <Image
+                  src={post.imageUrl}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 672px"
+                  priority
+                />
+              </div>
+            ) : null}
 
             <div className="mt-8 space-y-4">
               {post.content.map((paragraph) => (
@@ -79,4 +105,3 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     </section>
   );
 }
-
