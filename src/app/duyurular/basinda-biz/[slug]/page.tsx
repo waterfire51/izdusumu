@@ -5,7 +5,7 @@ import type { Metadata } from "next";
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import JsonLd from "@/components/seo/JsonLd";
-import { getPressPostBySlug, getPressPosts } from "@/lib/content";
+import { getPressPostBySlug } from "@/lib/content";
 import {
   buildArticleJsonLd,
   buildBreadcrumbJsonLd,
@@ -16,10 +16,7 @@ type PressDetailPageProps = {
   params: Promise<{ slug: string }>;
 };
 
-export async function generateStaticParams() {
-  const posts = await getPressPosts();
-  return posts.map((post) => ({ slug: post.slug }));
-}
+export const revalidate = 3600;
 
 export async function generateMetadata({
   params,

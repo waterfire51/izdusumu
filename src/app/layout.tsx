@@ -9,7 +9,7 @@ import GlobalSeoJsonLd from "@/components/seo/GlobalSeoJsonLd";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import { getSiteSettings } from "@/lib/content";
 import { defaultSiteMetadata } from "@/lib/seo";
-import { SITE_URL } from "@/lib/site-url";
+import { SITE_URL, absoluteUrl } from "@/lib/site-url";
 import { headers } from "next/headers";
 
 const inter = Inter({
@@ -29,6 +29,8 @@ const quicksand = Quicksand({
   weight: ["400", "500", "600", "700"],
 });
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   ...defaultSiteMetadata(),
   metadataBase: new URL(SITE_URL),
@@ -38,8 +40,13 @@ export const metadata: Metadata = {
     template: "%s | Özel İzdüşümü Anaokulu",
   },
   icons: {
-    icon: [{ url: "/favicon.png", type: "image/png" }],
-    apple: "/favicon.png",
+    icon: [
+      { url: absoluteUrl("/favicon.ico"), sizes: "48x48", type: "image/x-icon" },
+      { url: absoluteUrl("/favicon.png"), sizes: "64x64", type: "image/png" },
+      { url: absoluteUrl("/icon-192.png"), sizes: "192x192", type: "image/png" },
+    ],
+    shortcut: absoluteUrl("/favicon.ico"),
+    apple: [{ url: absoluteUrl("/apple-icon.png"), sizes: "180x180", type: "image/png" }],
   },
 };
 

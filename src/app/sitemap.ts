@@ -2,15 +2,15 @@ import type { MetadataRoute } from "next";
 import { getBlogPosts, getPressPosts, getRooms } from "@/lib/content";
 import { SITE_URL } from "@/lib/site-url";
 
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = SITE_URL;
   const now = new Date();
 
-  const [rooms, blogPosts, pressPosts] = await Promise.all([
-    getRooms(),
-    getBlogPosts(),
-    getPressPosts(),
-  ]);
+  const rooms = await getRooms();
+  const blogPosts = await getBlogPosts();
+  const pressPosts = await getPressPosts();
 
   const staticPages: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: now, changeFrequency: "weekly", priority: 1 },

@@ -9,20 +9,17 @@ import {
 import Container from "@/components/Container";
 import FadeIn from "@/components/FadeIn";
 import JsonLd from "@/components/seo/JsonLd";
-import { getRoomBySlug, getRooms } from "@/lib/content";
+import { getRoomBySlug } from "@/lib/content";
 import { buildBreadcrumbJsonLd, pageMetadata } from "@/lib/seo";
 
 type PageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const revalidate = 3600;
+
 const PURPLE = "#8A4FFF";
 const YELLOW = "#FFD600";
-
-export async function generateStaticParams() {
-  const rooms = await getRooms();
-  return rooms.map((room) => ({ slug: room.slug }));
-}
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
