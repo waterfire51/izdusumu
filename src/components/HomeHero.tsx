@@ -2,77 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import {
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import {
-  motion,
-  useMotionValue,
-  useSpring,
-  useTransform,
-  type MotionValue,
-} from "framer-motion";
-import {
-  BookOpen,
-  CaretRight,
-  Heart,
-  Lightbulb,
-  PencilSimple,
-  Play,
-  Star,
-} from "@phosphor-icons/react";
-import Container from "@/components/Container";
-import FadeIn from "@/components/FadeIn";
-
-const PURPLE = "#8A4FFF";
-const YELLOW = "#FFD600";
-
-type ParallaxLayerProps = {
-  springX: MotionValue<number>;
-  springY: MotionValue<number>;
-  depthX: number;
-  depthY: number;
-  rotate?: number;
-  className?: string;
-  children: React.ReactNode;
-};
-
-function ParallaxLayer({
-  springX,
-  springY,
-  depthX,
-  depthY,
-  rotate = 0,
-  className,
-  children,
-}: ParallaxLayerProps) {
-  const x = useTransform(springX, (v) => v * depthX * 40);
-  const y = useTransform(springY, (v) => v * depthY * 36);
-  const rot = useTransform(springX, (v) => v * rotate * 14);
-  return (
-    <motion.div className={className} style={{ x, y, rotate: rot }}>
-      {children}
-    </motion.div>
-  );
-}
-
-/** Deterministic “random” multipliers so SSR/hydration match. */
-function useParallaxFactors(count: number) {
-  return useMemo(() => {
-    return Array.from({ length: count }, (_, i) => {
-      const t = (i + 1) * 9.123 + 0.37;
-      const dx = 0.45 + (Math.sin(t * 11.7) * 0.5 + 0.5) * 0.85;
-      const dy = 0.45 + (Math.cos(t * 8.3) * 0.5 + 0.5) * 0.85;
-      const r = (Math.sin(t * 4.1) * 0.5 + 0.5) * 0.8 - 0.4;
-      return { dx, dy, r };
-    });
-  }, [count]);
-}
+import { useEffect, useState } from "react";
+import { CaretLeft, CaretRight } from "@phosphor-icons/react";
 
 export type HeroContent = {
   headline: string;
@@ -84,300 +15,114 @@ export type HeroContent = {
   ctaHref: string;
 };
 
-export default function HomeHero({ content }: { content?: HeroContent }) {
-  const hero = content ?? {
-    headline: "İz Düşümü Anaokulu'nda Güzel Dokunuşlar",
-    headlineHighlight1: "İz Düşümü Anaokulu",
-    headlineHighlight2: "İz Bırakır",
-    subtitle:
-      "Her gün yeni keşifler ve gelişim fırsatları sunan sıcak bir topluluğa hoş geldiniz. Güvenli, neşeli ve öğrenmeye açık bir ortamda çocuklarınızın yanındayız.",
-    videoUrl: "/videos/hero-drone.mp4",
-    ctaText: "2-6 Yaş Arası Çocuklarımız İçin",
-    ctaHref: "/dersliklerimiz",
-  };
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const dialogId = useId();
-  const [videoOpen, setVideoOpen] = useState(false);
+const slides = [
+  {
+    bg: "#3f84c3",
+    eyebrow: "Kaliteli eğitim, güvenli gelecek",
+    title: "Karakterli Bir Nesil İçin İzdüşümü",
+    text: "Eğitim, kültür ve sosyal faaliyetleri aynı çatı altında buluşturan güçlü bir okul deneyimi.",
+  },
+  {
+    bg: "#b21f55",
+    eyebrow: "Çocuklarımız için",
+    title: "Sevgiyle büyüyen, değerleriyle güçlenen nesiller",
+    text: "Okul, kurs, etkinlik ve aile iletişimini sade, sıcak ve kurumsal bir yaklaşımla yürütüyoruz.",
+  },
+  {
+    bg: "#2b9f91",
+    eyebrow: "Faaliyetlerimiz",
+    title: "Eğitimden sosyal hizmetlere uzanan kapsamlı yapı",
+    text: "Her yaş ve ihtiyaç için düzenli, takip edilebilir ve insan odaklı hizmetler sunuyoruz.",
+  },
+];
 
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const springX = useSpring(mx, { stiffness: 28, damping: 20, mass: 0.55 });
-  const springY = useSpring(my, { stiffness: 28, damping: 20, mass: 0.55 });
+export default function HomeHero({ content }: { content?: HeroContent }) {
+  const [index, setIndex] = useState(0);
+  const slide = slides[index];
 
   useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      mx.set((e.clientX / window.innerWidth) * 2 - 1);
-      my.set((e.clientY / window.innerHeight) * 2 - 1);
-    };
-    window.addEventListener("mousemove", handler, { passive: true });
-    return () => window.removeEventListener("mousemove", handler);
-  }, [mx, my]);
-
-  const factors = useParallaxFactors(7);
-
-  /* Bulutta dikey parallax yok: fare yukarıda şerit yukarı kalkıp altta boşluk bırakıyordu */
-  const bannerX = useTransform(springX, (v) => v * 12);
-  const kidsX = useTransform(springX, (v) => v * -14);
-  const kidsY = useTransform(springY, (v) => v * -11);
-
-  const closeVideo = useCallback(() => {
-    setVideoOpen(false);
-    const el = videoRef.current;
-    if (el) {
-      el.pause();
-      el.currentTime = 0;
-    }
+    const timer = window.setInterval(() => {
+      setIndex((current) => (current + 1) % slides.length);
+    }, 6000);
+    return () => window.clearInterval(timer);
   }, []);
 
-  const openVideo = useCallback(() => {
-    setVideoOpen(true);
-    requestAnimationFrame(() => {
-      void videoRef.current?.play().catch(() => {});
-    });
-  }, []);
-
-  const doodles = useMemo(
-    () => [
-      {
-        node: (
-          <Star
-            className="h-8 w-8 text-[#FFD600] opacity-90 drop-shadow-sm sm:h-10 sm:w-10"
-            weight="fill"
-            aria-hidden
-          />
-        ),
-        className: "left-[6%] top-[18%]",
-        ...factors[0],
-      },
-      {
-        node: (
-          <Star
-            className="h-6 w-6 text-white/90 sm:h-8 sm:w-8"
-            weight="fill"
-            aria-hidden
-          />
-        ),
-        className: "right-[10%] top-[22%]",
-        ...factors[1],
-      },
-      {
-        node: (
-          <Lightbulb
-            className="h-9 w-9 text-[#FFD600]/90 sm:h-11 sm:w-11"
-            weight="duotone"
-            aria-hidden
-          />
-        ),
-        className: "left-[12%] bottom-[38%] sm:bottom-[42%]",
-        ...factors[2],
-      },
-      {
-        node: (
-          <PencilSimple
-            className="hidden h-10 w-10 text-white/85 md:block"
-            weight="duotone"
-            aria-hidden
-          />
-        ),
-        className: "right-[18%] top-[38%]",
-        ...factors[3],
-      },
-      {
-        node: (
-          <BookOpen
-            className="h-9 w-9 text-[#FFD600]/85 sm:h-11 sm:w-11"
-            weight="duotone"
-            aria-hidden
-          />
-        ),
-        className: "bottom-[32%] right-[8%]",
-        ...factors[4],
-      },
-      {
-        node: (
-          <Heart
-            className="h-6 w-6 text-white/70 sm:h-7 sm:w-7"
-            weight="fill"
-            aria-hidden
-          />
-        ),
-        className: "left-[22%] top-[42%]",
-        ...factors[5],
-      },
-      {
-        node: (
-          <Heart
-            className="h-5 w-5 text-[#FFD600]/75"
-            weight="fill"
-            aria-hidden
-          />
-        ),
-        className: "right-[28%] bottom-[48%]",
-        ...factors[6],
-      },
-    ],
-    [factors]
-  );
+  const previous = () => setIndex((current) => (current - 1 + slides.length) % slides.length);
+  const next = () => setIndex((current) => (current + 1) % slides.length);
 
   return (
     <section
-      className="relative overflow-hidden pb-0"
-      style={{
-        backgroundColor: PURPLE,
-        backgroundImage: `
-          linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)
-        `,
-        backgroundSize: "48px 48px",
-      }}
+      className="relative overflow-hidden transition-colors duration-700"
+      style={{ backgroundColor: slide.bg }}
     >
-      {/* Çocuk görseli — bulut katmanının altında (z-[1] < bulut z-[2]) */}
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] flex justify-center lg:justify-end">
-        <div className="relative w-full max-w-6xl px-6 lg:px-10">
-          <div className="flex justify-center lg:justify-end">
-            <FadeIn
-              className="relative w-full max-w-[min(100%,420px)] translate-y-2 lg:max-w-[min(100%,520px)] lg:translate-y-6 xl:max-w-[min(100%,560px)]"
-              delay={0.08}
-            >
-              <motion.div
-                className="relative w-full"
-                style={{ x: kidsX, y: kidsY }}
-              >
-                <div className="relative mx-auto aspect-[4/5] w-full max-w-md sm:aspect-[5/6] lg:mx-0 lg:max-w-none">
-                  <Image
-                    src="/01.png"
-                    alt="Okul öncesi öğrencilerimiz"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 90vw, 45vw"
-                    className="object-contain object-bottom drop-shadow-[0_20px_50px_rgba(0,0,0,0.25)]"
-                  />
-                </div>
-              </motion.div>
-            </FadeIn>
+      <div className="pointer-events-none absolute inset-0 opacity-25">
+        <Image src="/shape/03.svg" alt="" width={100} height={130} className="absolute left-[8%] top-10 h-20 w-16 rotate-[-12deg]" />
+        <Image src="/shape/01.svg" alt="" width={120} height={100} className="absolute bottom-8 left-[43%] hidden h-20 w-24 md:block" />
+        <Image src="/shape/02.svg" alt="" width={108} height={82} className="absolute right-[12%] top-16 h-16 w-20 rotate-12" />
+      </div>
+      <div className="mx-auto grid min-h-[470px] w-full max-w-6xl items-center gap-8 px-6 py-14 lg:grid-cols-[0.85fr_1.15fr] lg:px-10 lg:py-8">
+        <div className="relative z-10 text-center text-white lg:text-left">
+          <p className="font-ananda text-lg font-semibold italic tracking-wide text-white/90 md:text-2xl">
+            {slide.eyebrow}
+          </p>
+          <h1 className="font-ananda mt-4 text-4xl font-semibold leading-tight md:text-5xl">
+            {content?.headline || slide.title}
+          </h1>
+          <p className="mx-auto mt-4 max-w-xl text-lg font-medium leading-relaxed text-white/90 lg:mx-0">
+            {content?.subtitle || slide.text}
+          </p>
+          <Link
+            href={content?.ctaHref || "/iletisim"}
+            className="mt-7 inline-flex rounded-sm bg-white px-7 py-3 text-sm font-bold uppercase tracking-[0.12em] text-[#b21f55] shadow-lg shadow-slate-900/10 transition hover:-translate-y-0.5"
+          >
+            {content?.ctaText || "Detaylı Bilgi"}
+          </Link>
+        </div>
+
+        <div className="relative z-10 mx-auto flex w-full max-w-xl items-end justify-center">
+          <div className="relative aspect-[1.15/1] w-full">
+            <Image
+              src="/01.png"
+              alt="Öğrencilerimiz"
+              fill
+              priority
+              sizes="(max-width: 1024px) 85vw, 560px"
+              className="object-contain object-bottom drop-shadow-[0_18px_40px_rgba(0,0,0,0.25)]"
+            />
           </div>
         </div>
       </div>
 
-      {/* Alt bulut şeridi — görselin üstünde */}
-      <motion.div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] w-full select-none"
-        style={{ x: bannerX }}
-        aria-hidden
+      <button
+        type="button"
+        onClick={previous}
+        className="absolute left-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition hover:bg-white/30 md:flex"
+        aria-label="Önceki slide"
       >
-        <div className="relative w-full aspect-[3840/468]">
-          <Image
-            src="/banner-bg-1.png"
-            alt=""
-            fill
-            className="object-contain object-bottom"
-            sizes="100vw"
-            priority
-          />
-        </div>
-      </motion.div>
+        <CaretLeft size={22} weight="bold" />
+      </button>
+      <button
+        type="button"
+        onClick={next}
+        className="absolute right-4 top-1/2 hidden h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur transition hover:bg-white/30 md:flex"
+        aria-label="Sonraki slide"
+      >
+        <CaretRight size={22} weight="bold" />
+      </button>
 
-      {doodles.map((d, i) => (
-        <ParallaxLayer
-          key={i}
-          springX={springX}
-          springY={springY}
-          depthX={d.dx}
-          depthY={d.dy}
-          rotate={d.r}
-          className={`pointer-events-none absolute z-[5] ${d.className}`}
-        >
-          {d.node}
-        </ParallaxLayer>
-      ))}
-
-      <Container className="relative z-10 grid min-h-[min(88vh,820px)] items-end gap-8 pb-4 pt-10 sm:pt-14 lg:grid-cols-[1.05fr_0.95fr] lg:gap-12 lg:pb-6 lg:pt-6">
-        <FadeIn className="max-lg:pb-[min(48vh,380px)] space-y-6 pb-8 lg:pb-24">
-          <p className="font-hero text-xs font-bold uppercase tracking-[0.22em] text-white/90 sm:text-sm">
-            Niğde Anaokulu · Çift Kanatlı Okul Öncesi Eğitim
-          </p>
-          <h1 className="font-hero text-[2.1rem] font-semibold leading-[1.15] tracking-tight text-white sm:text-5xl lg:text-[3.25rem] lg:leading-[1.12]">
-            <span style={{ color: YELLOW }} className="font-bold">
-              {hero.headlineHighlight1}
-            </span>
-            &apos;nda Güzel Dokunuşlar{" "}
-            <span style={{ color: YELLOW }} className="font-bold">
-              {hero.headlineHighlight2}
-            </span>
-          </h1>
-          <p className="max-w-xl font-hero text-base font-medium leading-relaxed text-white/95 sm:text-lg">
-            {hero.subtitle}
-          </p>
-
-          <div className="flex flex-wrap items-center gap-4">
-            <Link
-              href={hero.ctaHref}
-              className="font-hero inline-flex items-center gap-2 rounded-full px-7 py-3.5 text-sm font-bold text-slate-900 shadow-lg transition hover:brightness-95 active:scale-[0.99]"
-              style={{ backgroundColor: YELLOW }}
-            >
-              {hero.ctaText}
-              <CaretRight size={18} weight="bold" />
-            </Link>
-            <button
-              type="button"
-              className="font-hero group inline-flex items-center gap-3 rounded-full text-sm font-semibold text-white transition hover:opacity-95"
-              onClick={openVideo}
-              aria-haspopup="dialog"
-              aria-expanded={videoOpen}
-              aria-controls={dialogId}
-            >
-              <span
-                className="flex h-12 w-12 items-center justify-center rounded-full border-2 border-slate-900 shadow-md transition group-hover:scale-105"
-                style={{ backgroundColor: YELLOW, color: "#0f172a" }}
-              >
-                <Play size={22} weight="fill" className="ml-0.5" />
-              </span>
-              Tanıtım Filmi
-            </button>
-          </div>
-        </FadeIn>
-
-        {/* Masaüstünde görsel alanı — akışta boşluk (görsel absolute ile hizalanır) */}
-        <div
-          className="hidden min-h-[min(72vh,620px)] lg:block"
-          aria-hidden
-        />
-      </Container>
-
-      {videoOpen ? (
-        <div
-          className="fixed inset-0 z-[100] flex items-center justify-center bg-slate-950/75 p-4 backdrop-blur-sm"
-          role="dialog"
-          id={dialogId}
-          aria-modal="true"
-          aria-label="Tanıtım videosu"
-        >
+      <div className="absolute bottom-5 left-1/2 flex -translate-x-1/2 gap-2">
+        {slides.map((item, itemIndex) => (
           <button
+            key={item.bg}
             type="button"
-            className="absolute inset-0 cursor-default"
-            aria-label="Videoyu kapat"
-            onClick={closeVideo}
+            onClick={() => setIndex(itemIndex)}
+            className="h-2.5 w-2.5 rounded-full border border-white/80 transition"
+            style={{ backgroundColor: itemIndex === index ? "#ffffff" : "transparent" }}
+            aria-label={`${itemIndex + 1}. slide`}
+            aria-current={itemIndex === index}
           />
-          <div className="relative z-[101] w-full max-w-3xl overflow-hidden rounded-2xl border border-white/20 bg-black shadow-2xl">
-            <button
-              type="button"
-              className="absolute right-3 top-3 z-10 rounded-full bg-white/90 px-3 py-1.5 text-sm font-semibold text-slate-800 shadow hover:bg-white"
-              onClick={closeVideo}
-            >
-              Kapat
-            </button>
-            <video
-              ref={videoRef}
-              className="aspect-video w-full"
-              controls
-              playsInline
-              preload="metadata"
-            >
-              <source src={hero.videoUrl} type="video/mp4" />
-            </video>
-          </div>
-        </div>
-      ) : null}
+        ))}
+      </div>
     </section>
   );
 }

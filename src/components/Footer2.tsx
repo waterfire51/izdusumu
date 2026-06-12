@@ -1,15 +1,60 @@
 import Link from "next/link";
 import {
-  Clock,
   EnvelopeSimple,
+  FacebookLogo,
+  InstagramLogo,
   MapPin,
   Phone,
+  WhatsappLogo,
+  YoutubeLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import Logo from "./Logo";
-import { navLinks } from "@/lib/data";
 
-const PURPLE = "#8A4FFF";
-const YELLOW = "#FFD600";
+type FooterColumn = {
+  title: string;
+  links: {
+    label: string;
+    href: string;
+    external?: boolean;
+  }[];
+};
+
+const footerColumns: FooterColumn[] = [
+  {
+    title: "Kurumsal",
+    links: [
+      { label: "Hakkımızda", href: "/kurumsal" },
+      { label: "Yönetim", href: "/kurumsal/yonetim" },
+      { label: "Tüzük", href: "/kurumsal/tuzuk" },
+      { label: "Projelerimiz", href: "/kurumsal/projelerimiz" },
+    ],
+  },
+  {
+    title: "Faaliyetlerimiz",
+    links: [
+      { label: "Eğitim Hizmetleri", href: "/faaliyetlerimiz/egitim-hizmetlerimiz" },
+      { label: "Kurban Hizmetleri", href: "/faaliyetlerimiz/kurban-hizmetlerimiz" },
+      { label: "Sosyal Hizmetler", href: "/faaliyetlerimiz/sosyal-hizmetlerimiz" },
+      { label: "İnsani Yardım", href: "/faaliyetlerimiz/insani-yardim-hizmetlerimiz" },
+    ],
+  },
+  {
+    title: "Sosyal Medya",
+    links: [
+      { label: "Facebook", href: "https://facebook.com", external: true },
+      { label: "Instagram", href: "https://instagram.com", external: true },
+      { label: "YouTube", href: "https://youtube.com", external: true },
+    ],
+  },
+  {
+    title: "Programlarımız",
+    links: [
+      { label: "Video Galeri", href: "/galeri/video" },
+      { label: "Foto Galeri", href: "/galeri" },
+      { label: "İletişim", href: "/iletisim" },
+    ],
+  },
+];
 
 type SiteSettings = {
   address: string;
@@ -28,145 +73,102 @@ export default function Footer2({ settings }: { settings?: SiteSettings }) {
     "Selçuk Mahallesi, Sabancı Bulvarı Caddesi No: 40/1, Niğde";
   const phone = settings?.phone ?? "+90 552 531 00 51";
   const email = settings?.email ?? "iletisim@izdusumuanaokulu.com";
-  const hours = settings?.hours ?? "Hafta içi 08:30 - 17:30";
-  const tagline =
-    settings?.footerTagline ??
-    "Çocukların güvenle keşfettiği, velilerin huzurla desteklediği modern ve renkli bir eğitim yuvası.";
+  const whatsapp = `https://wa.me/${phone.replace(/\D/g, "")}`;
 
-  const social = [
-    settings?.instagram && { label: "Instagram", href: settings.instagram },
-    settings?.facebook && { label: "Facebook", href: settings.facebook },
-    settings?.youtube && { label: "YouTube", href: settings.youtube },
-  ].filter(Boolean) as { label: string; href: string }[];
   return (
-    <footer className="mt-auto border-t-2 border-black bg-amber-50/50">
-      <div className="mx-auto w-full max-w-6xl px-6 py-12 lg:px-10 lg:py-14">
-        <div className="grid gap-10 lg:grid-cols-3 lg:gap-10">
-          <div>
-            <Logo footer />
-            <p className="font-display mt-4 max-w-sm text-sm leading-relaxed text-slate-700">
-              {tagline}
-            </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              {social.map((s) => (
-                <Link
-                  key={s.href}
-                  href={s.href}
-                  rel="noopener noreferrer"
-                  target="_blank"
-                  className="rounded-full border-2 border-black bg-white px-3 py-1.5 text-xs font-bold text-slate-900 shadow-[3px_3px_0_#0f172a] transition hover:-translate-y-0.5 hover:bg-amber-100"
-                >
-                  {s.label}
-                </Link>
-              ))}
-            </div>
-            <Link
-              href="/iletisim"
-              className="mt-6 inline-flex items-center justify-center rounded-full border-4 border-black px-6 py-2.5 font-sans text-sm font-bold text-slate-900 shadow-[4px_4px_0_#0f172a] transition hover:translate-x-0.5 hover:translate-y-0.5 hover:shadow-none"
-              style={{ backgroundColor: YELLOW }}
-            >
-              Ön kayıt / İletişim
-            </Link>
-          </div>
+    <footer className="mt-auto bg-[#eef4fb] text-slate-700">
+      <div className="mx-auto w-full max-w-6xl px-6 py-12 lg:px-10">
+        <div className="flex flex-col gap-5 border-b border-slate-200 pb-8 lg:flex-row lg:items-center lg:justify-between">
+          <Logo footer />
+          <Link
+            href={whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-3 text-sm font-bold text-slate-800 transition hover:text-[#b21f55]"
+          >
+            WhatsApp Kanalımıza Katılın. Tüm gelişmelerden haberdar olun!
+            <span className="flex h-9 w-9 items-center justify-center rounded-sm bg-[#25d366] text-white">
+              <WhatsappLogo size={20} weight="fill" />
+            </span>
+          </Link>
+        </div>
 
+        <div className="grid gap-10 py-10 md:grid-cols-2 lg:grid-cols-[1.45fr_repeat(4,1fr)]">
           <div>
-            <h3 className="font-sans text-sm font-bold uppercase tracking-[0.15em] text-slate-800">
-              Menü
-            </h3>
-            <ul className="mt-4 space-y-2 font-display text-sm font-semibold text-slate-800">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <Link
-                    href={link.href}
-                    className="inline-block border-b-2 border-transparent transition hover:border-[#8A4FFF] hover:text-[#8A4FFF]"
-                  >
-                    {link.label}
-                  </Link>
-                </li>
-              ))}
-              <li>
-                <Link
-                  href="/duyurular"
-                  className="inline-block border-b-2 border-transparent transition hover:border-[#8A4FFF] hover:text-[#8A4FFF]"
-                >
-                  Duyurular
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          <div>
-            <h3 className="font-sans text-sm font-bold uppercase tracking-[0.15em] text-slate-800">
-              İletişim
-            </h3>
-            <ul className="mt-4 space-y-3 text-sm text-slate-800">
+            <h3 className="text-sm font-extrabold text-slate-800">İletişim Kanallarımız</h3>
+            <ul className="mt-5 space-y-3 text-sm font-medium">
               <li className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white shadow-[2px_2px_0_#0f172a]"
-                  aria-hidden
-                >
-                  <MapPin size={18} weight="duotone" className="text-fuchsia-600" />
-                </span>
-                <span className="font-display leading-snug">{address}</span>
+                <MapPin size={18} weight="duotone" className="mt-0.5 shrink-0 text-[#3f84c3]" />
+                <span>{address}</span>
               </li>
               <li className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white shadow-[2px_2px_0_#0f172a]"
-                  aria-hidden
-                >
-                  <Phone size={18} weight="duotone" className="text-fuchsia-600" />
-                </span>
-                <a
-                  href={`tel:${phone.replace(/\s/g, "")}`}
-                  className="font-display font-bold hover:text-[#8A4FFF]"
-                >
+                <Phone size={18} weight="duotone" className="mt-0.5 shrink-0 text-[#3f84c3]" />
+                <a href={`tel:${phone.replace(/\s/g, "")}`} className="hover:text-[#b21f55]">
                   {phone}
                 </a>
               </li>
               <li className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white shadow-[2px_2px_0_#0f172a]"
-                  aria-hidden
-                >
-                  <EnvelopeSimple
-                    size={18}
-                    weight="duotone"
-                    className="text-fuchsia-600"
-                  />
-                </span>
-                <a
-                  href={`mailto:${email}`}
-                  className="font-display break-all font-semibold hover:text-[#8A4FFF]"
-                >
+                <EnvelopeSimple size={18} weight="duotone" className="mt-0.5 shrink-0 text-[#3f84c3]" />
+                <a href={`mailto:${email}`} className="break-all hover:text-[#b21f55]">
                   {email}
                 </a>
               </li>
-              <li className="flex gap-3">
-                <span
-                  className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border-2 border-black bg-white shadow-[2px_2px_0_#0f172a]"
-                  aria-hidden
-                >
-                  <Clock size={18} weight="duotone" className="text-fuchsia-600" />
-                </span>
-                <span className="font-display font-medium">{hours}</span>
-              </li>
             </ul>
+            <div className="mt-5 flex gap-3 text-slate-500">
+              {[
+                { icon: FacebookLogo, href: settings?.facebook ?? "https://facebook.com", label: "Facebook" },
+                { icon: InstagramLogo, href: settings?.instagram ?? "https://instagram.com", label: "Instagram" },
+                { icon: YoutubeLogo, href: settings?.youtube ?? "https://youtube.com", label: "YouTube" },
+              ].map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={item.label}
+                    className="transition hover:text-[#b21f55]"
+                  >
+                    <Icon size={18} weight="fill" />
+                  </Link>
+                );
+              })}
+            </div>
           </div>
+
+          {footerColumns.map((column) => (
+            <div key={column.title}>
+              <h3 className="text-sm font-extrabold text-slate-800">{column.title}</h3>
+              <ul className="mt-5 space-y-2 text-sm font-medium">
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      target={link.external ? "_blank" : undefined}
+                      rel={link.external ? "noopener noreferrer" : undefined}
+                      className="transition hover:text-[#b21f55]"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div
-        className="border-t-2 border-black px-4 py-4 text-center text-xs font-semibold text-white sm:text-sm"
-        style={{ backgroundColor: PURPLE }}
-      >
-        <p>© 2026 Özel İzdüşümü Anaokulu. Tüm hakları saklıdır.</p>
-        <p className="mt-2 text-white/90">
+      <div className="border-t border-slate-200 px-4 py-5 text-center text-xs font-semibold text-slate-500">
+        <p>Copyright © 2026 - Her hakkı saklıdır.</p>
+        <p className="mt-2">
           Web sitesi{" "}
           <a
             href="https://bayabireklam.com"
             rel="noopener noreferrer"
             target="_blank"
-            className="font-bold text-white underline decoration-2 underline-offset-2 transition hover:text-[#FFD600]"
+            className="font-bold text-slate-700 transition hover:text-[#b21f55]"
           >
             Bayabireklam
           </a>{" "}
