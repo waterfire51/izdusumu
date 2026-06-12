@@ -1,11 +1,17 @@
-import HomeAnnouncements from "@/components/HomeAnnouncements";
-import HomeCounters from "@/components/HomeCounters";
+import HomeAbout from "@/components/HomeAbout";
+import HomeAgeClasses from "@/components/HomeAgeClasses";
+import HomeFaq from "@/components/HomeFaq";
 import HomeHero from "@/components/HomeHero";
+import HomeClassroomsCarousel from "@/components/HomeClassroomsCarousel";
 import HomeTestimonials from "@/components/HomeTestimonials";
+import HomeTopicsCarousel from "@/components/HomeTopicsCarousel";
 import JsonLd from "@/components/seo/JsonLd";
 import {
-  getAnnouncements,
+  getAgeClasses,
+  getClassroomShowcase,
+  getClassTopics,
   getHeroSection,
+  getHomeAbout,
   getTestimonials,
 } from "@/lib/content";
 import { buildFaqJsonLd, HOME_FAQ, pageMetadata } from "@/lib/seo";
@@ -25,10 +31,13 @@ export const metadata = pageMetadata({
 });
 
 export default async function Home() {
-  const [hero, announcements, textTestimonials] =
+  const [hero, homeAbout, ageClasses, topics, showcase, textTestimonials] =
     await Promise.all([
       getHeroSection(),
-      getAnnouncements(),
+      getHomeAbout(),
+      getAgeClasses(),
+      getClassTopics(),
+      getClassroomShowcase(),
       getTestimonials("text"),
     ]);
 
@@ -36,11 +45,21 @@ export default async function Home() {
     <div>
       <JsonLd data={buildFaqJsonLd(HOME_FAQ)} />
       <HomeHero content={hero} />
-      <HomeAnnouncements items={announcements} />
-      <HomeCounters />
+      <HomeAbout
+        badgeLabel={homeAbout.badgeLabel}
+        sectionTitle={homeAbout.sectionTitle}
+        sectionDescription={homeAbout.sectionDescription}
+        whyUsCards={homeAbout.whyUsCards.map((c) => ({
+          text: c.text,
+          color: c.color,
+        }))}
+        commitmentTitle={homeAbout.commitmentTitle}
+        commitmentText={homeAbout.commitmentText}
+      />
+      <HomeAgeClasses classes={ageClasses} />
+      <HomeTopicsCarousel topics={topics} />
+      <HomeClassroomsCarousel items={showcase} />
       <HomeTestimonials
-        backgroundColor="white"
-        showTopWave={false}
         items={textTestimonials.map((t) => ({
           name: t.name,
           role: t.role,
@@ -48,6 +67,7 @@ export default async function Home() {
           rating: t.rating,
         }))}
       />
+      <HomeFaq />
     </div>
   );
 }

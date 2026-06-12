@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { League_Spartan } from "next/font/google";
+import { Inter, Nunito, Quicksand } from "next/font/google";
 import "./globals.css";
 import Header2 from "@/components/Header2";
 import Footer2 from "@/components/Footer2";
@@ -12,10 +12,21 @@ import { defaultSiteMetadata } from "@/lib/seo";
 import { SITE_URL } from "@/lib/site-url";
 import { headers } from "next/headers";
 
-const leagueSpartan = League_Spartan({
+const inter = Inter({
   variable: "--font-primary",
+  subsets: ["latin"],
+});
+
+const nunito = Nunito({
+  variable: "--font-secondary",
   subsets: ["latin", "latin-ext"],
-  weight: ["300", "400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+const quicksand = Quicksand({
+  variable: "--font-quicksand",
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -44,7 +55,7 @@ export default async function RootLayout({
   return (
     <html
       lang="tr"
-      className={`${leagueSpartan.variable} h-full antialiased`}
+      className={`${inter.variable} ${nunito.variable} ${quicksand.variable} h-full antialiased`}
     >
       <body
         suppressHydrationWarning
